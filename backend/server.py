@@ -151,9 +151,9 @@ async def init_sample_data():
     # Sample photos with camera settings
     sample_photos = [
         {
-            "title": "Golden Hour Portrait",
-            "description": "A beautiful portrait captured during golden hour with soft natural lighting",
-            "image_url": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800&h=600&fit=crop",
+            "title": "Professional Portrait Session",
+            "description": "A skilled photographer capturing the perfect moment during a professional portrait session",
+            "image_url": "https://images.unsplash.com/photo-1743446770828-180040aba491?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1NzZ8MHwxfHNlYXJjaHwxfHxwaG90b2dyYXBoeSUyMHBvcnRmb2xpb3xlbnwwfHx8fDE3NTI0MjU1MTF8MA&ixlib=rb-4.1.0&q=85",
             "camera_settings": {
                 "aperture": "f/1.8",
                 "shutter_speed": "1/200s",
@@ -163,27 +163,63 @@ async def init_sample_data():
             }
         },
         {
-            "title": "City Landscape",
-            "description": "Urban landscape with dramatic sky and architectural elements",
-            "image_url": "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800&h=600&fit=crop",
+            "title": "Natural Light Portrait",
+            "description": "Beautiful portrait captured with natural lighting showcasing soft, even skin tones",
+            "image_url": "https://images.unsplash.com/photo-1607865077798-50b8d3c253fb?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1NzZ8MHwxfHNlYXJjaHwyfHxwaG90b2dyYXBoeSUyMHBvcnRmb2xpb3xlbnwwfHx8fDE3NTI0MjU1MTF8MA&ixlib=rb-4.1.0&q=85",
+            "camera_settings": {
+                "aperture": "f/2.8",
+                "shutter_speed": "1/125s",
+                "iso": "ISO 200",
+                "lens": "Fujifilm XF 56mm f/1.2",
+                "focal_length": "56mm"
+            }
+        },
+        {
+            "title": "Artistic Still Life",
+            "description": "Creative composition showcasing artistic vision with painting and natural elements",
+            "image_url": "https://images.unsplash.com/photo-1505934763054-93cd118ee9dc?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1NzZ8MHwxfHNlYXJjaHwzfHxwaG90b2dyYXBoeSUyMHBvcnRmb2xpb3xlbnwwfHx8fDE3NTI0MjU1MTF8MA&ixlib=rb-4.1.0&q=85",
+            "camera_settings": {
+                "aperture": "f/5.6",
+                "shutter_speed": "1/60s",
+                "iso": "ISO 100",
+                "lens": "Fujifilm XF 16-55mm f/2.8",
+                "focal_length": "35mm"
+            }
+        },
+        {
+            "title": "Professional Equipment Setup",
+            "description": "High-quality Sony DSLR camera with professional lenses showcasing technical excellence",
+            "image_url": "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDF8MHwxfHNlYXJjaHwxfHxjYW1lcmF8ZW58MHx8fHwxNzUyNDI1NTE5fDA&ixlib=rb-4.1.0&q=85",
             "camera_settings": {
                 "aperture": "f/8",
                 "shutter_speed": "1/60s",
                 "iso": "ISO 200",
-                "lens": "Fujifilm XF 16-55mm f/2.8",
-                "focal_length": "24mm"
+                "lens": "Sony FE 24-70mm f/2.8",
+                "focal_length": "50mm"
             }
         },
         {
-            "title": "Nature Macro",
-            "description": "Close-up macro shot of morning dew on leaves",
-            "image_url": "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=600&fit=crop",
+            "title": "Fujifilm X-Series Camera",
+            "description": "Professional Fujifilm camera system demonstrating technical expertise and equipment mastery",
+            "image_url": "https://images.unsplash.com/photo-1536632087471-3cf3f2986328?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDF8MHwxfHNlYXJjaHwyfHxjYW1lcmF8ZW58MHx8fHwxNzUyNDI1NTE5fDA&ixlib=rb-4.1.0&q=85",
             "camera_settings": {
-                "aperture": "f/2.8",
+                "aperture": "f/4",
                 "shutter_speed": "1/125s",
-                "iso": "ISO 100",
-                "lens": "Fujifilm XF 80mm f/2.8 Macro",
-                "focal_length": "80mm"
+                "iso": "ISO 800",
+                "lens": "Fujifilm XF 23mm f/1.4",
+                "focal_length": "23mm"
+            }
+        },
+        {
+            "title": "Vintage Camera Heritage",
+            "description": "Classic vintage camera representing the rich history and tradition of photography",
+            "image_url": "https://images.unsplash.com/photo-1495121553079-4c61bcce1894?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDF8MHwxfHNlYXJjaHwzfHxjYW1lcmF8ZW58MHx8fHwxNzUyNDI1NTE5fDA&ixlib=rb-4.1.0&q=85",
+            "camera_settings": {
+                "aperture": "f/11",
+                "shutter_speed": "1/30s",
+                "iso": "ISO 400",
+                "lens": "Vintage 50mm f/1.4",
+                "focal_length": "50mm"
             }
         }
     ]
