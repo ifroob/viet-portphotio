@@ -87,21 +87,21 @@ const CommentSection = ({ photoId }) => {
         {/* Comments Display */}
         <div className="space-y-4">
           {comments.length === 0 ? (
-            <div className="text-center py-12 bg-gray-800 rounded-lg border border-purple-500/30">
+            <div className="text-center py-12 bg-gray-800 rounded-lg border border-blue-500/30">
               <p className="text-gray-400 text-xl mb-2">
-                🦗 *crickets* 
+                No comments yet
               </p>
               <p className="text-gray-500">
-                Be the first to break the ice and drop a comment! 🧊✨
+                Be the first to share your thoughts
               </p>
             </div>
           ) : (
             comments.map((comment) => (
-              <div key={comment.id} className="bg-gray-800 p-6 rounded-lg border border-gray-700 hover:border-purple-500/50 transition-colors">
+              <div key={comment.id} className="bg-gray-800 p-6 rounded-lg border border-gray-700 hover:border-blue-500/50 transition-colors">
                 <div className="flex justify-between items-start mb-3">
-                  <h4 className="font-semibold text-purple-400 text-lg">💬 {comment.name}</h4>
+                  <h4 className="font-semibold text-blue-400 text-lg">{comment.name}</h4>
                   <span className="text-gray-500 text-sm">
-                    📅 {new Date(comment.timestamp).toLocaleDateString()}
+                    {new Date(comment.timestamp).toLocaleDateString()}
                   </span>
                 </div>
                 <p className="text-gray-300 leading-relaxed">{comment.comment}</p>
