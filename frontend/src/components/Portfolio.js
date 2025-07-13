@@ -99,11 +99,11 @@ const Portfolio = () => {
 
       {/* Photo Carousel */}
       <div className="container mx-auto px-4 py-16">
-        <h2 className="text-5xl font-bold text-center mb-4 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
-          🎯 Featured Shots
+        <h2 className="text-5xl font-bold text-center mb-4 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+          Featured Work
         </h2>
         <p className="text-center text-gray-400 mb-12 text-lg">
-          Every pixel tells a story. Here's mine! 📖✨
+          Professional photography portfolio
         </p>
         {photos.length > 0 && (
           <PhotoCarousel 
