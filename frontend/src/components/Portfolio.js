@@ -91,7 +91,7 @@ const Portfolio = () => {
               className="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-blue-400 shadow-lg transform hover:scale-110 transition-transform"
             />
             <h1 className="text-6xl font-bold mb-4 bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-300 bg-clip-text text-transparent">
-              Brian's Portfolio
+              Brian's Portphotio
             </h1>
             <p className="text-xl text-gray-300 max-w-2xl mx-auto">
               Professional photographer specializing in portrait and landscape photography.
