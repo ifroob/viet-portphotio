@@ -45,13 +45,13 @@ const PhotoCarousel = ({ photos, currentIndex, onIndexChange }) => {
       </div>
 
       {/* Camera Settings */}
-      <div className="mt-8 bg-gray-800 rounded-lg p-6">
-        <h4 className="text-xl font-semibold mb-4">Camera Settings</h4>
+      <div className="mt-8 bg-gray-800 rounded-lg p-6 border border-purple-500/30">
+        <h4 className="text-2xl font-semibold mb-4 text-purple-400">📊 Tech Specs</h4>
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
           {Object.entries(currentPhoto.camera_settings).map(([key, value]) => (
-            <div key={key} className="bg-gray-700 p-3 rounded text-center">
-              <div className="text-sm text-gray-400 capitalize">{key.replace('_', ' ')}</div>
-              <div className="text-lg font-semibold">{value}</div>
+            <div key={key} className="bg-gray-700 p-4 rounded-lg text-center border border-gray-600 hover:border-purple-500 transition-colors">
+              <div className="text-sm text-gray-400 capitalize font-semibold">{key.replace('_', ' ')}</div>
+              <div className="text-xl font-bold text-purple-300">{value}</div>
             </div>
           ))}
         </div>
