@@ -42,12 +42,6 @@ const PhotoCarousel = ({ photos, currentIndex, onIndexChange }) => {
               }}
             />
           </div>
-
-          {/* Photo Info Overlay */}
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-8">
-            <h3 className="text-3xl font-bold mb-2 text-blue-400">{currentPhoto.title}</h3>
-            <p className="text-gray-300 mb-4 text-lg">{currentPhoto.description}</p>
-          </div>
         </div>
 
         {/* Right Arrow */}
@@ -59,6 +53,12 @@ const PhotoCarousel = ({ photos, currentIndex, onIndexChange }) => {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>
         </button>
+      </div>
+
+      {/* Photo Caption - Below Carousel */}
+      <div className="mt-6 text-center">
+        <h3 className="text-3xl font-bold mb-2 text-blue-400">{currentPhoto.title}</h3>
+        <p className="text-gray-300 text-lg max-w-3xl mx-auto">{currentPhoto.description}</p>
       </div>
 
       {/* Camera Settings */}
