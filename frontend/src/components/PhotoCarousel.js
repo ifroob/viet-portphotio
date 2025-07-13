@@ -17,22 +17,30 @@ const PhotoCarousel = ({ photos, currentIndex, onIndexChange }) => {
     <div className="max-w-6xl mx-auto">
       {/* Main Photo Display */}
       <div className="relative bg-black rounded-lg overflow-hidden shadow-2xl border border-blue-500/30">
-        <img 
-          src={currentPhoto.image_url} 
-          alt={currentPhoto.title}
-          className="w-full h-[600px] object-cover"
-        />
+        <div className="w-full h-[700px] flex items-center justify-center bg-black">
+          <img 
+            src={currentPhoto.image_url} 
+            alt={currentPhoto.title}
+            className="max-w-full max-h-full object-contain"
+            style={{
+              maxWidth: '100%',
+              maxHeight: '700px',
+              width: 'auto',
+              height: 'auto'
+            }}
+          />
+        </div>
         
         {/* Navigation Buttons */}
         <button 
           onClick={prevPhoto}
-          className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-blue-600 bg-opacity-80 hover:bg-opacity-100 text-white p-4 rounded-full transition-all hover:scale-110"
+          className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-blue-600 bg-opacity-80 hover:bg-opacity-100 text-white p-4 rounded-full transition-all hover:scale-110 z-10"
         >
           ← Prev
         </button>
         <button 
           onClick={nextPhoto}
-          className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-blue-600 bg-opacity-80 hover:bg-opacity-100 text-white p-4 rounded-full transition-all hover:scale-110"
+          className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-blue-600 bg-opacity-80 hover:bg-opacity-100 text-white p-4 rounded-full transition-all hover:scale-110 z-10"
         >
           Next →
         </button>
