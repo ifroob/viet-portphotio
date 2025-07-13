@@ -65,24 +65,34 @@ const Portfolio = () => {
           </div>
           
           {/* Camera Specs */}
-          <div className="bg-gray-800 p-6 rounded-lg max-w-2xl mx-auto border border-purple-500/30">
-            <h3 className="text-2xl font-semibold mb-4 text-purple-400">🔧 My Tech Arsenal</h3>
-            <pre className="text-left text-sm bg-black p-4 rounded overflow-x-auto border border-gray-700">
-              <code className="text-green-400">{`
-// Brian's Photography Setup 2024 🚀
-const myGear = {
-  body: "Fujifilm X-T4", // The beast! 💪
-  primaryLens: "XF 35mm f/1.4 R", // Portrait magic ✨
-  wideAngle: "XF 16-55mm f/2.8 R LM WR", // Landscape hero 🌄
-  macroLens: "XF 80mm f/2.8 R LM OIS WR Macro", // Tiny details 🔍
-  support: "Gitzo GT3543XLS", // Rock solid 🗿
-  filters: "Hoya Pro1 Digital CPL", // Sky enhancer ☀️
-  storage: "SanDisk Extreme Pro 128GB", // Speed demon 💨
-  software: ["Lightroom Classic", "Photoshop"], // Digital magic 🎨
-  coffee: "Essential for late-night editing ☕"
-};
-              `}</code>
-            </pre>
+          <div className="bg-gray-800 p-6 rounded-lg max-w-2xl mx-auto border border-blue-500/30">
+            <h3 className="text-2xl font-semibold mb-4 text-blue-400">Equipment</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-white">
+              <div>
+                <span className="text-gray-400">Camera Body:</span> Fujifilm X-T4
+              </div>
+              <div>
+                <span className="text-gray-400">Primary Lens:</span> XF 35mm f/1.4 R
+              </div>
+              <div>
+                <span className="text-gray-400">Zoom Lens:</span> XF 16-55mm f/2.8 R LM WR
+              </div>
+              <div>
+                <span className="text-gray-400">Macro Lens:</span> XF 80mm f/2.8 R LM OIS WR
+              </div>
+              <div>
+                <span className="text-gray-400">Tripod:</span> Gitzo GT3543XLS
+              </div>
+              <div>
+                <span className="text-gray-400">Filters:</span> Hoya Pro1 Digital CPL
+              </div>
+              <div>
+                <span className="text-gray-400">Storage:</span> SanDisk Extreme Pro 128GB
+              </div>
+              <div>
+                <span className="text-gray-400">Software:</span> Lightroom Classic, Photoshop
+              </div>
+            </div>
           </div>
         </div>
       </div>
