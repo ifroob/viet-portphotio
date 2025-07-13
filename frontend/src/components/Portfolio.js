@@ -66,18 +66,22 @@ const Portfolio = () => {
           </div>
           
           {/* Camera Specs */}
-          <div className="bg-gray-800 p-6 rounded-lg max-w-2xl mx-auto">
-            <h3 className="text-2xl font-semibold mb-4">Camera Setup</h3>
-            <pre className="text-left text-sm bg-black p-4 rounded overflow-x-auto">
-              <code>{`
-Body: Fujifilm X-T4
-Primary Lens: XF 35mm f/1.4 R
-Secondary Lens: XF 16-55mm f/2.8 R LM WR
-Macro Lens: XF 80mm f/2.8 R LM OIS WR Macro
-Tripod: Gitzo GT3543XLS
-Filters: Hoya Pro1 Digital CPL
-Memory: SanDisk Extreme Pro 128GB
-Software: Lightroom Classic, Photoshop
+          <div className="bg-gray-800 p-6 rounded-lg max-w-2xl mx-auto border border-purple-500/30">
+            <h3 className="text-2xl font-semibold mb-4 text-purple-400">🔧 My Tech Arsenal</h3>
+            <pre className="text-left text-sm bg-black p-4 rounded overflow-x-auto border border-gray-700">
+              <code className="text-green-400">{`
+// Brian's Photography Setup 2024 🚀
+const myGear = {
+  body: "Fujifilm X-T4", // The beast! 💪
+  primaryLens: "XF 35mm f/1.4 R", // Portrait magic ✨
+  wideAngle: "XF 16-55mm f/2.8 R LM WR", // Landscape hero 🌄
+  macroLens: "XF 80mm f/2.8 R LM OIS WR Macro", // Tiny details 🔍
+  support: "Gitzo GT3543XLS", // Rock solid 🗿
+  filters: "Hoya Pro1 Digital CPL", // Sky enhancer ☀️
+  storage: "SanDisk Extreme Pro 128GB", // Speed demon 💨
+  software: ["Lightroom Classic", "Photoshop"], // Digital magic 🎨
+  coffee: "Essential for late-night editing ☕"
+};
               `}</code>
             </pre>
           </div>
