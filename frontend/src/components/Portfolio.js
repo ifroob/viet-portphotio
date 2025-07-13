@@ -36,6 +36,17 @@ const Portfolio = () => {
     }
   };
 
+  const handleBackgroundUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setBackgroundImage(e.target.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const currentPhoto = photos[currentPhotoIndex];
 
   if (loading) {
