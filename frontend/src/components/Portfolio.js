@@ -10,6 +10,7 @@ const Portfolio = () => {
   const [photos, setPhotos] = useState([]);
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [backgroundImage, setBackgroundImage] = useState('');
 
   useEffect(() => {
     fetchPhotos();
