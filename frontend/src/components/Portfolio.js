@@ -55,9 +55,7 @@ const Portfolio = () => {
       <div 
         className="relative py-20"
         style={{
-          background: backgroundImage 
-            ? `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${backgroundImage})`
-            : 'linear-gradient(to right, black, rgb(30, 58, 138), rgb(55, 65, 81))',
+          background: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${backgroundImage})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat'
