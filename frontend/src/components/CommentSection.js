@@ -48,7 +48,12 @@ const CommentSection = ({ photoId }) => {
   return (
     <div className="container mx-auto px-4 py-12">
       <div className="max-w-4xl mx-auto">
-        <h3 className="text-3xl font-bold mb-8">Comments</h3>
+        <h3 className="text-4xl font-bold mb-2 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+          💬 What's The Buzz?
+        </h3>
+        <p className="text-gray-400 mb-8 text-lg">
+          Drop some love, share your thoughts, or just say hi! 🎉
+        </p>
         
         {/* Comment Form */}
         <form onSubmit={handleSubmit} className="bg-gray-800 p-6 rounded-lg mb-8">
