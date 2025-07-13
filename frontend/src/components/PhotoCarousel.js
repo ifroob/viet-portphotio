@@ -15,41 +15,50 @@ const PhotoCarousel = ({ photos, currentIndex, onIndexChange }) => {
 
   return (
     <div className="max-w-6xl mx-auto">
-      {/* Main Photo Display */}
-      <div className="relative bg-black rounded-lg overflow-hidden shadow-2xl border border-blue-500/30">
-        <div className="w-full h-[700px] flex items-center justify-center bg-black">
-          <img 
-            src={currentPhoto.image_url} 
-            alt={currentPhoto.title}
-            className="max-w-full max-h-full object-contain"
-            style={{
-              maxWidth: '100%',
-              maxHeight: '700px',
-              width: 'auto',
-              height: 'auto'
-            }}
-          />
-        </div>
-        
-        {/* Navigation Buttons */}
+      {/* Photo Navigation Container */}
+      <div className="flex items-center justify-center gap-6">
+        {/* Left Arrow */}
         <button 
           onClick={prevPhoto}
-          className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-blue-600 bg-opacity-80 hover:bg-opacity-100 text-white p-4 rounded-full transition-all hover:scale-110 z-10"
+          className="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition-all hover:scale-110 flex-shrink-0"
         >
-          ← Prev
-        </button>
-        <button 
-          onClick={nextPhoto}
-          className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-blue-600 bg-opacity-80 hover:bg-opacity-100 text-white p-4 rounded-full transition-all hover:scale-110 z-10"
-        >
-          Next →
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
         </button>
 
-        {/* Photo Info Overlay */}
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-8">
-          <h3 className="text-3xl font-bold mb-2 text-blue-400">{currentPhoto.title}</h3>
-          <p className="text-gray-300 mb-4 text-lg">{currentPhoto.description}</p>
+        {/* Main Photo Display */}
+        <div className="relative bg-black rounded-lg overflow-hidden shadow-2xl border border-blue-500/30 flex-1">
+          <div className="w-full h-[700px] flex items-center justify-center bg-black">
+            <img 
+              src={currentPhoto.image_url} 
+              alt={currentPhoto.title}
+              className="max-w-full max-h-full object-contain"
+              style={{
+                maxWidth: '100%',
+                maxHeight: '700px',
+                width: 'auto',
+                height: 'auto'
+              }}
+            />
+          </div>
+
+          {/* Photo Info Overlay */}
+          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-8">
+            <h3 className="text-3xl font-bold mb-2 text-blue-400">{currentPhoto.title}</h3>
+            <p className="text-gray-300 mb-4 text-lg">{currentPhoto.description}</p>
+          </div>
         </div>
+
+        {/* Right Arrow */}
+        <button 
+          onClick={nextPhoto}
+          className="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition-all hover:scale-110 flex-shrink-0"
+        >
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
       </div>
 
       {/* Camera Settings */}
