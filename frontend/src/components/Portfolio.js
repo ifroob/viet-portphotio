@@ -62,18 +62,6 @@ const Portfolio = () => {
         }}
       >
         <div className="container mx-auto px-4 text-center relative">
-          {/* Background Upload Button */}
-          <div className="absolute top-4 right-4">
-            <label className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded cursor-pointer transition-colors">
-              Change Background
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleBackgroundUpload}
-                className="hidden"
-              />
-            </label>
-          </div>
           <div className="mb-8">
             <img 
               src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face"
