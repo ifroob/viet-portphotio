@@ -48,20 +48,19 @@ const Portfolio = () => {
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-black via-purple-900 to-gray-800 py-20">
+      <div className="bg-gradient-to-r from-black via-blue-900 to-gray-800 py-20">
         <div className="container mx-auto px-4 text-center">
           <div className="mb-8">
             <img 
               src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face"
               alt="Brian"
-              className="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-purple-400 shadow-lg transform hover:scale-110 transition-transform"
+              className="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-blue-400 shadow-lg transform hover:scale-110 transition-transform"
             />
-            <h1 className="text-6xl font-bold mb-4 bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent">
-              Brian's Digital Lens 📸
+            <h1 className="text-6xl font-bold mb-4 bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-300 bg-clip-text text-transparent">
+              Brian's Portfolio
             </h1>
             <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-              Hey there! 👋 I'm Brian, and this is my perspective from behind the lens. 
-              Welcome to my digital playground where pixels meet passion! ✨
+              Professional photographer specializing in portrait and landscape photography.
             </p>
           </div>
           
