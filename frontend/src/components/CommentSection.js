@@ -56,31 +56,31 @@ const CommentSection = ({ photoId }) => {
         </p>
         
         {/* Comment Form */}
-        <form onSubmit={handleSubmit} className="bg-gray-800 p-6 rounded-lg mb-8">
+        <form onSubmit={handleSubmit} className="bg-gray-800 p-6 rounded-lg mb-8 border border-purple-500/30">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
             <input
               type="text"
-              placeholder="Your name"
+              placeholder="Your awesome name ✨"
               value={newComment.name}
               onChange={(e) => setNewComment({ ...newComment, name: e.target.value })}
-              className="bg-gray-700 text-white p-3 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="bg-gray-700 text-white p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 border border-gray-600"
               required
             />
           </div>
           <textarea
-            placeholder="Share your thoughts about this photo..."
+            placeholder="Spill the tea! What do you think about this shot? 🍵📸"
             value={newComment.comment}
             onChange={(e) => setNewComment({ ...newComment, comment: e.target.value })}
-            className="w-full bg-gray-700 text-white p-3 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4"
+            className="w-full bg-gray-700 text-white p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 mb-4 border border-gray-600"
             rows="4"
             required
           />
           <button
             type="submit"
             disabled={loading}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded font-semibold transition-colors disabled:opacity-50"
+            className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition-all disabled:opacity-50 transform hover:scale-105"
           >
-            {loading ? "Posting..." : "Post Comment"}
+            {loading ? "Sending vibes... 🚀" : "Drop the comment! 💫"}
           </button>
         </form>
 
