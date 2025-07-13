@@ -10,7 +10,9 @@ const Portfolio = () => {
   const [photos, setPhotos] = useState([]);
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [backgroundImage, setBackgroundImage] = useState('');
+
+  // Placeholder background image - change this URL to update the background
+  const backgroundImage = "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1920&h=1080&fit=crop&crop=center";
 
   useEffect(() => {
     fetchPhotos();
