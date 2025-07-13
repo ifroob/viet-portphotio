@@ -64,7 +64,7 @@ const PhotoCarousel = ({ photos, currentIndex, onIndexChange }) => {
             key={index}
             onClick={() => onIndexChange(index)}
             className={`w-4 h-4 rounded-full transition-all hover:scale-125 ${
-              index === currentIndex ? 'bg-purple-400 shadow-lg shadow-purple-400/50' : 'bg-gray-600 hover:bg-gray-400'
+              index === currentIndex ? 'bg-blue-400 shadow-lg shadow-blue-400/50' : 'bg-gray-600 hover:bg-gray-400'
             }`}
           />
         ))}
