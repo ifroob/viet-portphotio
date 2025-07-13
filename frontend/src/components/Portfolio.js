@@ -60,8 +60,30 @@ const Portfolio = () => {
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-black via-blue-900 to-gray-800 py-20">
-        <div className="container mx-auto px-4 text-center">
+      <div 
+        className="relative py-20"
+        style={{
+          background: backgroundImage 
+            ? `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${backgroundImage})`
+            : 'linear-gradient(to right, black, rgb(30, 58, 138), rgb(55, 65, 81))',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
+        }}
+      >
+        <div className="container mx-auto px-4 text-center relative">
+          {/* Background Upload Button */}
+          <div className="absolute top-4 right-4">
+            <label className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded cursor-pointer transition-colors">
+              Change Background
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleBackgroundUpload}
+                className="hidden"
+              />
+            </label>
+          </div>
           <div className="mb-8">
             <img 
               src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face"
