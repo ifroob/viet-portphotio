@@ -111,9 +111,10 @@ const myGear = {
       )}
 
       {/* Footer */}
-      <footer className="bg-black py-8 mt-16">
+      <footer className="bg-black py-8 mt-16 border-t border-purple-500/30">
         <div className="container mx-auto px-4 text-center text-gray-400">
-          <p>&copy; 2024 Brian's Photography Portfolio. All rights reserved.</p>
+          <p>&copy; 2024 Brian's Digital Lens 📸 | Capturing moments, creating memories ✨</p>
+          <p className="text-sm mt-2 text-purple-400">Made with 💜 and lots of ☕</p>
         </div>
       </footer>
     </div>
