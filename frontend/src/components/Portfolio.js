@@ -90,7 +90,12 @@ const myGear = {
 
       {/* Photo Carousel */}
       <div className="container mx-auto px-4 py-16">
-        <h2 className="text-4xl font-bold text-center mb-12">Featured Work</h2>
+        <h2 className="text-5xl font-bold text-center mb-4 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+          🎯 Featured Shots
+        </h2>
+        <p className="text-center text-gray-400 mb-12 text-lg">
+          Every pixel tells a story. Here's mine! 📖✨
+        </p>
         {photos.length > 0 && (
           <PhotoCarousel 
             photos={photos} 
