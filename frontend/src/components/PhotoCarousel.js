@@ -16,7 +16,7 @@ const PhotoCarousel = ({ photos, currentIndex, onIndexChange }) => {
   return (
     <div className="max-w-6xl mx-auto">
       {/* Main Photo Display */}
-      <div className="relative bg-black rounded-lg overflow-hidden shadow-2xl border border-purple-500/30">
+      <div className="relative bg-black rounded-lg overflow-hidden shadow-2xl border border-blue-500/30">
         <img 
           src={currentPhoto.image_url} 
           alt={currentPhoto.title}
@@ -26,20 +26,20 @@ const PhotoCarousel = ({ photos, currentIndex, onIndexChange }) => {
         {/* Navigation Buttons */}
         <button 
           onClick={prevPhoto}
-          className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-purple-600 bg-opacity-80 hover:bg-opacity-100 text-white p-4 rounded-full transition-all hover:scale-110"
+          className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-blue-600 bg-opacity-80 hover:bg-opacity-100 text-white p-4 rounded-full transition-all hover:scale-110"
         >
           ← Prev
         </button>
         <button 
           onClick={nextPhoto}
-          className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-purple-600 bg-opacity-80 hover:bg-opacity-100 text-white p-4 rounded-full transition-all hover:scale-110"
+          className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-blue-600 bg-opacity-80 hover:bg-opacity-100 text-white p-4 rounded-full transition-all hover:scale-110"
         >
           Next →
         </button>
 
         {/* Photo Info Overlay */}
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-8">
-          <h3 className="text-3xl font-bold mb-2 text-purple-400">{currentPhoto.title} 🔥</h3>
+          <h3 className="text-3xl font-bold mb-2 text-blue-400">{currentPhoto.title}</h3>
           <p className="text-gray-300 mb-4 text-lg">{currentPhoto.description}</p>
         </div>
       </div>
