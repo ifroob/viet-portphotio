@@ -72,7 +72,9 @@ const Portfolio = () => {
               Brian's Portphotio
             </h1>
             <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-              Professional photographer specializing in portrait and landscape photography.
+              Professional photographer specializing in portrait and landscape photography. 
+              I got tired of Instagram throttling the resolution of my photos, so I decided to create this portfolio 
+              where my work can be showcased in full quality.
             </p>
           </div>
           
