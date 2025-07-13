@@ -68,12 +68,12 @@ const PhotoTweaker = () => {
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       <div className="container mx-auto px-4 py-8">
-        <h1 className="text-5xl font-bold text-center mb-4 bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent">
-          🎛️ Photo Recipe Tweaker
+        <h1 className="text-5xl font-bold text-center mb-4 bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-300 bg-clip-text text-transparent">
+          Photo Recipe Tweaker
         </h1>
         <p className="text-center text-gray-300 mb-12 max-w-2xl mx-auto text-lg">
-          Time to get nerdy! 🤓 Adjust those Fujifilm settings in real-time and watch the magic happen. 
-          Perfect for experimenting and learning what makes photos pop! ✨📸
+          Adjust Fujifilm camera settings in real-time to see how they affect your photos. 
+          Perfect for learning and experimenting with different looks.
         </p>
 
         {/* Photo Comparison */}
