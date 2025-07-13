@@ -58,13 +58,13 @@ const PhotoCarousel = ({ photos, currentIndex, onIndexChange }) => {
       </div>
 
       {/* Thumbnail Navigation */}
-      <div className="flex justify-center mt-8 space-x-2">
+      <div className="flex justify-center mt-8 space-x-3">
         {photos.map((_, index) => (
           <button
             key={index}
             onClick={() => onIndexChange(index)}
-            className={`w-3 h-3 rounded-full transition-all ${
-              index === currentIndex ? 'bg-white' : 'bg-gray-600 hover:bg-gray-400'
+            className={`w-4 h-4 rounded-full transition-all hover:scale-125 ${
+              index === currentIndex ? 'bg-purple-400 shadow-lg shadow-purple-400/50' : 'bg-gray-600 hover:bg-gray-400'
             }`}
           />
         ))}
