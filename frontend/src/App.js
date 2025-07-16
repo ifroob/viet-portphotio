@@ -3,6 +3,9 @@ import "./App.css";
 import { BrowserRouter, Routes, Route, Link, useLocation } from "react-router-dom";
 import Portfolio from "./components/Portfolio";
 import PhotoTweaker from "./components/PhotoTweaker";
+import Blog from "./components/Blog";
+import ArticleDetail from "./components/ArticleDetail";
+import MorePhotos from "./components/MorePhotos";
 
 const Navigation = () => {
   const location = useLocation();
@@ -23,6 +26,26 @@ const Navigation = () => {
             }`}
           >
             Portfolio
+          </Link>
+          <Link 
+            to="/blog" 
+            className={`font-medium transition-colors px-3 py-2 rounded ${
+              location.pathname.startsWith('/blog') 
+                ? 'text-blue-400 bg-blue-500/20 border border-blue-500/50' 
+                : 'hover:text-blue-400'
+            }`}
+          >
+            Blog
+          </Link>
+          <Link 
+            to="/photos" 
+            className={`font-medium transition-colors px-3 py-2 rounded ${
+              location.pathname === '/photos' 
+                ? 'text-blue-400 bg-blue-500/20 border border-blue-500/50' 
+                : 'hover:text-blue-400'
+            }`}
+          >
+            More Photos
           </Link>
           <Link 
             to="/tweaker" 
@@ -47,6 +70,9 @@ function App() {
         <Navigation />
         <Routes>
           <Route path="/" element={<Portfolio />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<ArticleDetail />} />
+          <Route path="/photos" element={<MorePhotos />} />
           <Route path="/tweaker" element={<PhotoTweaker />} />
         </Routes>
       </BrowserRouter>
