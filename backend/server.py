@@ -142,12 +142,43 @@ async def get_photos():
     photos = await db.photos.find().to_list(1000)
     return [Photo(**photo) for photo in photos]
 
+@api_router.get("/photos/{photo_id}", response_model=Photo)
+async def get_photo(photo_id: str):
+    photo = await db.photos.find_one({"id": photo_id})
+    if not photo:
+        raise HTTPException(status_code=404, detail="Photo not found")
+    return Photo(**photo)
+
 @api_router.post("/photos", response_model=Photo)
 async def create_photo(photo: PhotoCreate):
     photo_dict = photo.dict()
     photo_obj = Photo(**photo_dict)
     _ = await db.photos.insert_one(photo_obj.dict())
     return photo_obj
+
+@api_router.put("/photos/{photo_id}", response_model=Photo)
+async def update_photo(photo_id: str, photo_update: PhotoCreate):
+    photo = await db.photos.find_one({"id": photo_id})
+    if not photo:
+        raise HTTPException(status_code=404, detail="Photo not found")
+    
+    update_dict = photo_update.dict()
+    update_dict["timestamp"] = datetime.utcnow()
+    
+    await db.photos.update_one(
+        {"id": photo_id},
+        {"$set": update_dict}
+    )
+    
+    updated_photo = await db.photos.find_one({"id": photo_id})
+    return Photo(**updated_photo)
+
+@api_router.delete("/photos/{photo_id}")
+async def delete_photo(photo_id: str):
+    result = await db.photos.delete_one({"id": photo_id})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Photo not found")
+    return {"message": "Photo deleted successfully"}
 
 @api_router.get("/photos/{photo_id}", response_model=Photo)
 async def get_photo(photo_id: str):

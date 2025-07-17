@@ -69,8 +69,8 @@ const Portfolio = () => {
               alt="Brian"
               className="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-blue-400 shadow-lg transform hover:scale-110 transition-transform"
             />
-            <h1 className="text-6xl font-bold mb-4 bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-300 bg-clip-text text-transparent">
-              Brian's Portphotio
+            <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold mb-4 bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-300 bg-clip-text text-transparent italic" style={{ fontFamily: 'cursive' }}>
+              Brian's PortPhotio
             </h1>
             <p className="text-xl text-gray-300 max-w-2xl mx-auto">
               Professional photographer specializing in portrait and landscape photography. 
@@ -135,11 +135,11 @@ const Portfolio = () => {
       </div>
 
       {/* Photo Carousel */}
-      <div className="container mx-auto px-4 py-16">
-        <h2 className="text-5xl font-bold text-center mb-4 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+      <div className="container mx-auto px-2 sm:px-4 py-8 sm:py-16">
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-4 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
           Featured Work
         </h2>
-        <p className="text-center text-gray-400 mb-12 text-lg">
+        <p className="text-center text-gray-400 mb-8 sm:mb-12 text-base sm:text-lg">
           Professional photography portfolio
         </p>
         {photos.length > 0 && (
