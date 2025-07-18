@@ -9,17 +9,24 @@ from pydantic import BaseModel, Field
 from typing import List, Optional
 import uuid
 from datetime import datetime
+import psutil
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
-# MongoDB connection
-mongo_url = os.environ['MONGO_URL']
+# MongoDB connection - updated for Atlas
+mongo_url = os.environ.get('MONGO_URL', 'mongodb://localhost:27017')
+db_name = os.environ.get('DB_NAME', 'portfolio_db')
+
 client = AsyncIOMotorClient(mongo_url)
-db = client[os.environ['DB_NAME']]
+db = client[db_name]
 
 # Create the main app without a prefix
-app = FastAPI()
+app = FastAPI(
+    title="Brian's Photography Portfolio API",
+    description="A comprehensive photography portfolio API with blog, gallery, and admin features",
+    version="1.0.0"
+)
 
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
@@ -119,9 +126,109 @@ class GalleryPhotoCreate(BaseModel):
     description: Optional[str] = None
     category: str = "general"
 
+# Health check endpoint for Railway
+@app.get("/health")
+async def health_check():
+    try:
+        # Test database connection
+        await db.admin.command('ping')
+        return {"status": "healthy", "database": "connected"}
+    except Exception as e:
+        raise HTTPException(status_code=503, detail=f"Database connection failed: {str(e)}")
+
+# Monitoring endpoints
+@api_router.get("/monitoring/usage")
+async def get_usage_stats():
+    """Get current resource usage stats"""
+    return {
+        "timestamp": datetime.utcnow().isoformat(),
+        "cpu_percent": psutil.cpu_percent(interval=1),
+        "memory_percent": psutil.virtual_memory().percent,
+        "memory_used_mb": round(psutil.virtual_memory().used / (1024 * 1024), 2),
+        "disk_usage_percent": psutil.disk_usage('/').percent,
+        "active_connections": len(psutil.net_connections()),
+        "uptime_seconds": (datetime.utcnow() - datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)).total_seconds()
+    }
+
+@api_router.get("/monitoring/health-detailed")
+async def detailed_health_check():
+    """Detailed health check with resource usage"""
+    try:
+        # Test database connection
+        await db.admin.command('ping')
+        db_status = "connected"
+        
+        # Get collection counts
+        photos_count = await db.photos.count_documents({})
+        articles_count = await db.articles.count_documents({})
+        comments_count = await db.comments.count_documents({})
+        gallery_count = await db.gallery.count_documents({})
+        
+        return {
+            "status": "healthy",
+            "timestamp": datetime.utcnow().isoformat(),
+            "database": {
+                "status": db_status,
+                "photos": photos_count,
+                "articles": articles_count,
+                "comments": comments_count,
+                "gallery": gallery_count
+            },
+            "system": {
+                "cpu_percent": psutil.cpu_percent(interval=1),
+                "memory_percent": psutil.virtual_memory().percent,
+                "memory_used_mb": round(psutil.virtual_memory().used / (1024 * 1024), 2)
+            }
+        }
+    except Exception as e:
+        raise HTTPException(status_code=503, detail=f"Health check failed: {str(e)}")
+
+@api_router.get("/monitoring/dashboard")
+async def monitoring_dashboard():
+    """Simple monitoring dashboard data"""
+    
+    # Get current usage
+    usage_stats = {
+        "cpu_percent": psutil.cpu_percent(interval=1),
+        "memory_percent": psutil.virtual_memory().percent,
+        "memory_used_mb": round(psutil.virtual_memory().used / (1024 * 1024), 2),
+        "active_connections": len(psutil.net_connections())
+    }
+    
+    # Get database stats
+    db_stats = {
+        "photos": await db.photos.count_documents({}),
+        "articles": await db.articles.count_documents({}),
+        "comments": await db.comments.count_documents({}),
+        "gallery": await db.gallery.count_documents({})
+    }
+    
+    # Estimate monthly cost (rough calculation)
+    estimated_monthly_cost = {
+        "cpu_cost": round(usage_stats["cpu_percent"] * 0.01, 2),  # Rough estimate
+        "memory_cost": round(usage_stats["memory_used_mb"] * 0.001, 2),  # Rough estimate
+        "estimated_total": round(usage_stats["cpu_percent"] * 0.01 + usage_stats["memory_used_mb"] * 0.001, 2)
+    }
+    
+    return {
+        "usage": usage_stats,
+        "database": db_stats,
+        "cost_estimate": estimated_monthly_cost,
+        "alerts": {
+            "high_cpu": usage_stats["cpu_percent"] > 80,
+            "high_memory": usage_stats["memory_percent"] > 80,
+            "high_connections": usage_stats["active_connections"] > 100
+        }
+    }
+
+# Root endpoint
+@app.get("/")
+async def root():
+    return {"message": "Brian's Photography Portfolio API", "status": "running"}
+
 # Existing routes
 @api_router.get("/")
-async def root():
+async def api_root():
     return {"message": "Brian's Photography Portfolio API"}
 
 @api_router.post("/status", response_model=StatusCheck)
@@ -179,13 +286,6 @@ async def delete_photo(photo_id: str):
     if result.deleted_count == 0:
         raise HTTPException(status_code=404, detail="Photo not found")
     return {"message": "Photo deleted successfully"}
-
-@api_router.get("/photos/{photo_id}", response_model=Photo)
-async def get_photo(photo_id: str):
-    photo = await db.photos.find_one({"id": photo_id})
-    if photo is None:
-        raise HTTPException(status_code=404, detail="Photo not found")
-    return Photo(**photo)
 
 # Comment routes
 @api_router.get("/photos/{photo_id}/comments", response_model=List[Comment])
@@ -353,6 +453,11 @@ async def get_gallery_categories():
 # Initialize sample data
 @api_router.post("/init-sample-data")
 async def init_sample_data():
+    # Check if data already exists
+    existing_photos = await db.photos.count_documents({})
+    if existing_photos > 0:
+        return {"message": "Sample data already exists"}
+    
     # Sample photos with camera settings
     sample_photos = [
         {
@@ -716,11 +821,18 @@ Making mistakes is part of the learning process. The photographers who improve f
 # Include the router in the main app
 app.include_router(api_router)
 
+# Configure CORS for production
 app.add_middleware(
     CORSMiddleware,
     allow_credentials=True,
-    allow_origins=["*"],
-    allow_methods=["*"],
+    allow_origins=[
+        "http://localhost:3000",  # Local development
+        "https://localhost:3000",  # Local development with HTTPS
+        "https://*.vercel.app",    # Vercel deployments
+        "https://*.netlify.app",   # Netlify deployments
+        "https://your-domain.com", # Replace with your actual domain
+    ],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
 )
 
@@ -731,6 +843,35 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+@app.on_event("startup")
+async def startup_event():
+    """Initialize app and create database indexes"""
+    logger.info("Starting Brian's Photography Portfolio API")
+    logger.info(f"Database: {db_name}")
+    
+    # Create database indexes for better performance
+    try:
+        # Index for articles
+        await db.articles.create_index([("slug", 1)], unique=True)
+        await db.articles.create_index([("is_published", 1), ("publish_date", -1)])
+        await db.articles.create_index([("tags", 1)])
+        
+        # Index for photos
+        await db.photos.create_index([("timestamp", -1)])
+        
+        # Index for comments
+        await db.comments.create_index([("photo_id", 1), ("timestamp", -1)])
+        
+        # Index for gallery
+        await db.gallery.create_index([("category", 1), ("timestamp", -1)])
+        
+        logger.info("Database indexes created successfully")
+    except Exception as e:
+        logger.warning(f"Index creation failed (may already exist): {str(e)}")
+    
+    logger.info("API is ready to serve requests")
+
 @app.on_event("shutdown")
 async def shutdown_db_client():
+    logger.info("Shutting down database connection")
     client.close()
