@@ -15,6 +15,8 @@ import PhotoManager from "./components/admin/PhotoManager";
 import PhotoForm from "./components/admin/PhotoForm";
 import BlogManager from "./components/admin/BlogManager";
 import BlogForm from "./components/admin/BlogForm";
+import QuickUpload from "./components/admin/QuickUpload";
+import GalleryManager from "./components/admin/GalleryManager";
 import ProtectedRoute from "./components/admin/ProtectedRoute";
 
 const Navigation = () => {
@@ -125,6 +127,16 @@ function App() {
             <Route path="/admin/blog/edit/:id" element={
               <ProtectedRoute>
                 <BlogForm />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/upload" element={
+              <ProtectedRoute>
+                <QuickUpload />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/gallery" element={
+              <ProtectedRoute>
+                <GalleryManager />
               </ProtectedRoute>
             } />
           </Routes>

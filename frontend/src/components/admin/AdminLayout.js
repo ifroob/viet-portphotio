@@ -8,7 +8,9 @@ const AdminLayout = ({ children }) => {
 
   const navigation = [
     { name: 'Dashboard', href: '/admin', icon: '📊' },
-    { name: 'Photos', href: '/admin/photos', icon: '📸' },
+    { name: 'Quick Upload', href: '/admin/upload', icon: '⚡' },
+    { name: 'Featured Photos', href: '/admin/photos', icon: '📸' },
+    { name: 'Gallery', href: '/admin/gallery', icon: '🖼️' },
     { name: 'Blog', href: '/admin/blog', icon: '📝' },
   ];
 
