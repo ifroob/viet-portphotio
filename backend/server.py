@@ -14,6 +14,13 @@ import psutil
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
+# Configure logging early
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
+
 # MongoDB connection - updated for Atlas
 mongo_url = os.environ.get('MONGO_URL', 'mongodb://localhost:27017')
 db_name = os.environ.get('DB_NAME', 'portfolio_db')
@@ -822,26 +829,47 @@ Making mistakes is part of the learning process. The photographers who improve f
 app.include_router(api_router)
 
 # Configure CORS for production
+origins = [
+    "http://localhost:3000",  # Local development
+    "https://localhost:3000",  # Local development with HTTPS
+    "http://127.0.0.1:3000",  # Local development alternative
+    "https://127.0.0.1:3000", # Local development alternative
+]
+
+# Add production origins
+frontend_url = os.environ.get('FRONTEND_URL')
+if frontend_url:
+    origins.append(frontend_url)
+
+# Add common deployment patterns
+vercel_patterns = [
+    "https://*.vercel.app",    # Vercel deployments
+    "https://vercel.app",      # Vercel domain
+]
+
+netlify_patterns = [
+    "https://*.netlify.app",   # Netlify deployments  
+    "https://netlify.app",     # Netlify domain
+]
+
+# For development and testing, allow all origins (use with caution)
+allow_all_origins = os.environ.get('ALLOW_ALL_ORIGINS', 'false').lower() == 'true'
+
+if allow_all_origins:
+    logger.warning("CORS is configured to allow all origins - only use for development!")
+    origins = ["*"]
+else:
+    origins.extend(vercel_patterns)
+    origins.extend(netlify_patterns)
+
 app.add_middleware(
     CORSMiddleware,
     allow_credentials=True,
-    allow_origins=[
-        "http://localhost:3000",  # Local development
-        "https://localhost:3000",  # Local development with HTTPS
-        "https://*.vercel.app",    # Vercel deployments
-        "https://*.netlify.app",   # Netlify deployments
-        "https://your-domain.com", # Replace with your actual domain
-    ],
+    allow_origins=origins,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
+    expose_headers=["*"],
 )
-
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
-logger = logging.getLogger(__name__)
 
 @app.on_event("startup")
 async def startup_event():
