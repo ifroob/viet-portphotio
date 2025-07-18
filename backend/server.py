@@ -834,6 +834,7 @@ origins = [
     "https://localhost:3000",  # Local development with HTTPS
     "http://127.0.0.1:3000",  # Local development alternative
     "https://127.0.0.1:3000", # Local development alternative
+    "https://portphotio.vercel.app",  # Production frontend URL
 ]
 
 # Add production origins
@@ -841,26 +842,12 @@ frontend_url = os.environ.get('FRONTEND_URL')
 if frontend_url:
     origins.append(frontend_url)
 
-# Add common deployment patterns
-vercel_patterns = [
-    "https://*.vercel.app",    # Vercel deployments
-    "https://vercel.app",      # Vercel domain
-]
-
-netlify_patterns = [
-    "https://*.netlify.app",   # Netlify deployments  
-    "https://netlify.app",     # Netlify domain
-]
-
 # For development and testing, allow all origins (use with caution)
 allow_all_origins = os.environ.get('ALLOW_ALL_ORIGINS', 'false').lower() == 'true'
 
 if allow_all_origins:
     logger.warning("CORS is configured to allow all origins - only use for development!")
     origins = ["*"]
-else:
-    origins.extend(vercel_patterns)
-    origins.extend(netlify_patterns)
 
 app.add_middleware(
     CORSMiddleware,
