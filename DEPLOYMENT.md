@@ -1,6 +1,6 @@
-# Deployment Guide: Railway + Vercel + MongoDB Atlas
+# Deployment Guide: Railway (Full App) + Vercel (Frontend) + MongoDB Atlas
 
-This guide will help you deploy Brian's Photography Portfolio using Railway (backend), Vercel (frontend), and MongoDB Atlas (database).
+This guide will help you deploy Brian's Photography Portfolio using Railway for the backend (from the monorepo), Vercel for the frontend, and MongoDB Atlas for the database.
 
 ## Prerequisites
 
@@ -43,17 +43,17 @@ This guide will help you deploy Brian's Photography Portfolio using Railway (bac
 
 Example: `mongodb+srv://username:password@cluster.mongodb.net/portfolio_db?retryWrites=true&w=majority`
 
-## Step 2: Deploy Backend to Railway
+## Step 2: Deploy Full App to Railway
 
 ### Push Code to GitHub
-1. Create a new repository on GitHub called "portfolio-backend"
-2. Push your backend code to GitHub:
+1. Create a new repository on GitHub called "portfolio-app"
+2. Push your entire app code to GitHub:
 ```bash
-cd /app/portphotio/backend
+cd /app/portphotio
 git init
 git add .
 git commit -m "Initial commit"
-git remote add origin https://github.com/yourusername/portfolio-backend.git
+git remote add origin https://github.com/yourusername/portfolio-app.git
 git push -u origin main
 ```
 
@@ -62,8 +62,8 @@ git push -u origin main
 2. Click "New Project"
 3. Select "Deploy from GitHub repo"
 4. Connect your GitHub account
-5. Select your "portfolio-backend" repository
-6. Railway will automatically detect it's a Python project
+5. Select your "portfolio-app" repository
+6. Railway will detect the monorepo structure and use the backend configuration
 
 ### Configure Environment Variables
 1. Go to your Railway project dashboard
@@ -71,7 +71,15 @@ git push -u origin main
 3. Add these environment variables:
    - `MONGO_URL`: Your MongoDB Atlas connection string
    - `DB_NAME`: `portfolio_db`
-   - `PORT`: `8000`
+   - `PORT`: `8000` (Railway will override this automatically)
+
+### Verify Deployment
+1. Railway will automatically build and deploy your backend
+2. The build process will:
+   - Use the `railway.json` configuration
+   - Install dependencies from `backend/requirements.txt`
+   - Start the server from the `backend/` directory
+3. Check deployment logs for any errors
 
 ### Get Your Railway URL
 1. Go to your Railway project dashboard
@@ -91,9 +99,9 @@ git push -u origin main
 1. Edit `/app/portphotio/frontend/.env.production`
 2. Replace `https://your-railway-app.railway.app` with your actual Railway URL
 
-### Push Code to GitHub
+### Create Separate Frontend Repository
 1. Create a new repository on GitHub called "portfolio-frontend"
-2. Push your frontend code to GitHub:
+2. Push only the frontend code:
 ```bash
 cd /app/portphotio/frontend
 git init
@@ -127,8 +135,9 @@ git push -u origin main
 ## Step 4: Update CORS Configuration
 
 ### Update Backend CORS
-1. Edit your Railway backend code
-2. Update the CORS origins in `server.py`:
+1. Your backend code already includes proper CORS configuration
+2. The deployment will automatically allow your Vercel domain
+3. If you need to update CORS origins, modify `server.py` in your repository:
 ```python
 allow_origins=[
     "http://localhost:3000",  # Local development
@@ -138,7 +147,7 @@ allow_origins=[
     "https://your-domain.com", # Your custom domain (if any)
 ],
 ```
-3. Commit and push changes to trigger new deployment
+4. Commit and push changes to trigger new Railway deployment
 
 ## Step 5: Test Your Deployment
 
@@ -147,6 +156,9 @@ allow_origins=[
 2. Should return: `{"status": "healthy", "database": "connected"}`
 3. Visit: `https://your-railway-app.railway.app/api/photos`
 4. Should return JSON array of photos
+5. Test monitoring endpoints:
+   - `https://your-railway-app.railway.app/api/monitoring/usage`
+   - `https://your-railway-app.railway.app/api/monitoring/dashboard`
 
 ### Test Frontend
 1. Visit your Vercel URL
@@ -158,102 +170,99 @@ allow_origins=[
 3. Test commenting functionality
 4. Check that all images load properly
 
-## Step 6: Custom Domain (Optional)
+## Railway Configuration Details
 
-### For Frontend (Vercel)
-1. Go to Vercel project settings
-2. Click "Domains"
-3. Add your custom domain
-4. Follow DNS configuration instructions
+### Monorepo Structure
+```
+portphotio/
+├── backend/              # Railway deploys from here
+│   ├── server.py         # Main FastAPI application
+│   ├── requirements.txt  # Python dependencies
+│   └── .env             # Environment variables
+├── frontend/            # Deployed separately to Vercel
+├── railway.json         # Railway configuration
+├── Procfile            # Process definition
+├── nixpacks.toml       # Build configuration
+└── .railwayignore      # Files to exclude from deployment
+```
 
-### For Backend (Railway)
-1. Go to Railway project settings
-2. Click "Domains"
-3. Add your custom domain
-4. Update frontend environment variables
+### Railway Build Process
+1. Railway reads `railway.json` for configuration
+2. Uses `nixpacks.toml` to determine working directory
+3. Installs dependencies from `backend/requirements.txt`
+4. Starts the application from `backend/` directory
+5. Excludes frontend files via `.railwayignore`
+
+### Benefits of This Approach
+- **Single Repository**: Easier to manage both frontend and backend
+- **Efficient Deployment**: Only backend files are deployed to Railway
+- **Cost Effective**: Single Railway project instead of multiple
+- **Simple Updates**: Update backend code and push to trigger redeploy
+
+## Step 6: Set Up Monitoring
+
+### Railway Monitoring
+1. Visit your Railway dashboard
+2. Go to "Metrics" tab to see usage
+3. Set up alerts at $3 and $4 thresholds
+4. Monitor CPU, memory, and network usage
+
+### Use Built-in Monitoring
+1. Test monitoring endpoints:
+   - `https://your-railway-app.railway.app/api/monitoring/usage`
+   - `https://your-railway-app.railway.app/api/monitoring/dashboard`
+2. Use the monitoring dashboard (update the URL in `monitoring/dashboard.html`)
+3. Set up the Python monitoring script for local tracking
 
 ## Troubleshooting
 
+### Railway Deployment Issues
+- **Build fails**: Check `railway.json` configuration
+- **Dependencies not found**: Verify `backend/requirements.txt`
+- **Wrong working directory**: Check `nixpacks.toml` and `Procfile`
+- **Environment variables**: Ensure all required variables are set
+
 ### Common Issues
-
-#### Backend Issues
-- **500 Error**: Check MongoDB connection string
-- **CORS Error**: Update allowed origins in server.py
-- **Database Connection**: Verify MongoDB Atlas IP whitelist
-
-#### Frontend Issues
-- **API Calls Failing**: Check REACT_APP_BACKEND_URL
-- **Build Errors**: Verify all dependencies are installed
-- **Routing Issues**: Check vercel.json configuration
-
-### Debug Steps
-1. Check Railway logs for backend errors
-2. Check Vercel function logs for frontend errors
-3. Use browser developer tools to check network requests
-4. Verify environment variables are set correctly
+- **404 on API calls**: Check that routes are prefixed with `/api`
+- **CORS errors**: Verify allowed origins in `server.py`
+- **Database connection**: Check MongoDB Atlas connection string
+- **Monitoring not working**: Verify `psutil` is installed
 
 ## Estimated Costs
 
 - **Railway**: Free tier ($5/month credit, usually sufficient)
-- **Vercel**: Completely free
+- **Vercel**: Completely free for frontend
 - **MongoDB Atlas**: Free tier (512MB storage)
 - **Total**: $0/month with free tiers
 
-## Performance Optimization
-
-### Backend (Railway)
-- Uses async/await for all database operations
-- Implements proper error handling
-- Health checks for monitoring
-
-### Frontend (Vercel)
-- Optimized build process
-- CDN delivery
-- Automatic optimization
-
-### Database (MongoDB Atlas)
-- Indexed queries for better performance
-- Connection pooling
-- Automatic backups
-
-## Security Features
-
-- CORS properly configured
-- Environment variables for sensitive data
-- HTTPS everywhere
-- Input validation on all endpoints
-
-## Monitoring
-
-### Railway
-- Built-in logging and metrics
-- Automatic restarts on failure
-- Health check endpoints
-
-### Vercel
-- Analytics dashboard
-- Function logs
-- Performance insights
-
-### MongoDB Atlas
-- Performance monitoring
-- Security alerts
-- Backup status
-
 ## Next Steps
 
-1. **Custom Domain**: Set up your own domain
-2. **Analytics**: Add Google Analytics or similar
-3. **SEO**: Optimize meta tags and sitemap
-4. **Performance**: Add image optimization
-5. **Monitoring**: Set up uptime monitoring
+1. **Custom Domain**: Set up your own domain for both services
+2. **Monitoring**: Set up continuous monitoring
+3. **Analytics**: Add Google Analytics
+4. **SEO**: Optimize meta tags
+5. **Performance**: Monitor and optimize resource usage
 
-## Support
+## Railway-Specific Commands
 
-If you encounter issues:
-1. Check the logs in Railway/Vercel dashboards
-2. Verify all environment variables
-3. Test API endpoints directly
-4. Check MongoDB Atlas connection
+```bash
+# Install Railway CLI
+npm install -g @railway/cli
 
-Happy deploying! 🚀
+# Login to Railway
+railway login
+
+# Check project status
+railway status
+
+# View logs
+railway logs
+
+# Check environment variables
+railway variables
+
+# Deploy latest changes
+git push origin main  # Auto-deploys to Railway
+```
+
+This monorepo approach keeps your codebase organized while optimizing deployment costs and complexity! 🚀

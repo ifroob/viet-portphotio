@@ -1,0 +1,13 @@
+# Railway .railwayignore file
+# Exclude frontend files from deployment to save space and time
+
+frontend/
+monitoring/
+tests/
+*.md
+.git/
+node_modules/
+.vercel/
+.netlify/
+yarn.lock
+package-lock.json
