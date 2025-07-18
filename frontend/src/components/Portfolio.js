@@ -13,7 +13,7 @@ const Portfolio = () => {
   const [loading, setLoading] = useState(true);
 
   // Placeholder background image - change this URL to update the background
-  const backgroundImage = "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1920&h=1080&fit=crop&crop=center";
+  const backgroundImage = "https://portphotio.s3.us-east-1.amazonaws.com/DSCF3849.JPG";
 
   useEffect(() => {
     fetchPhotos();
@@ -65,17 +65,16 @@ const Portfolio = () => {
         <div className="container mx-auto px-4 text-center relative">
           <div className="mb-8">
             <img 
-              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face"
+              src="https://portphotio.s3.us-east-1.amazonaws.com/me.png"
               alt="Brian"
-              className="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-blue-400 shadow-lg transform hover:scale-110 transition-transform"
+              className="w-48 h-48 rounded-full mx-auto mb-4 border-4 border-blue-400 shadow-lg transform hover:scale-110 transition-transform"
             />
             <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold mb-4 bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-300 bg-clip-text text-transparent italic" style={{ fontFamily: 'cursive' }}>
               Brian's PortPhotio
             </h1>
             <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-              Professional photographer specializing in portrait and landscape photography. 
-              I got tired of Instagram throttling the resolution of my photos, so I decided to create this portfolio 
-              where my work can be showcased in full quality.
+              Casual photographer messing around with photography. I shoot anything involving my interests! Friends, family, nature, travel, hobbies.
+              I got tired of Instagram throttling the resolution of my photos, so I decided to create this Portphotio.
             </p>
           </div>
           
@@ -102,32 +101,29 @@ const Portfolio = () => {
           </div>
           
           {/* Camera Specs */}
-          <div className="bg-gray-800/90 backdrop-blur-sm p-6 rounded-lg max-w-2xl mx-auto border border-blue-500/30">
-            <h3 className="text-2xl font-semibold mb-4 text-blue-400">Equipment</h3>
+          <div className="bg-gray-800/90 backdrop-blur-sm p-6 rounded-lg max-w-4xl mx-auto border border-blue-500/30">
+            <h3 className="text-m font-semibold mb-4 text-blue-400">Equipment</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-white">
               <div>
-                <span className="text-gray-400">Camera Body:</span> Fujifilm X-T4
+                <span className="text-gray-400">Camera Body:</span> Fujifilm XS20
               </div>
               <div>
-                <span className="text-gray-400">Primary Lens:</span> XF 35mm f/1.4 R
+                <span className="text-gray-400">Primary Lens:</span> Tamron 17-70mm f/2.8 Di III-A VC RXD
               </div>
               <div>
-                <span className="text-gray-400">Zoom Lens:</span> XF 16-55mm f/2.8 R LM WR
+                <span className="text-gray-400">Zoom Lens:</span> XC 50-230mm f/4.5-6.7 OIS II
               </div>
               <div>
-                <span className="text-gray-400">Macro Lens:</span> XF 80mm f/2.8 R LM OIS WR
+                <span className="text-gray-400">Macro Lens:</span> XF 90mm f/2 R LM WR
               </div>
               <div>
-                <span className="text-gray-400">Tripod:</span> Gitzo GT3543XLS
+                <span className="text-gray-400">Fisheye Lens:</span> Canon 8-15mm f/4L Fisheye USM
               </div>
               <div>
-                <span className="text-gray-400">Filters:</span> Hoya Pro1 Digital CPL
+                <span className="text-gray-400">Recipes:</span> TBD -- I tend to use Fuji Recipes found online.
               </div>
               <div>
                 <span className="text-gray-400">Storage:</span> SanDisk Extreme Pro 128GB
-              </div>
-              <div>
-                <span className="text-gray-400">Software:</span> Lightroom Classic, Photoshop
               </div>
             </div>
           </div>
@@ -140,7 +136,7 @@ const Portfolio = () => {
           Featured Work
         </h2>
         <p className="text-center text-gray-400 mb-8 sm:mb-12 text-base sm:text-lg">
-          Professional photography portfolio
+          Photography Portphotio
         </p>
         {photos.length > 0 && (
           <PhotoCarousel 
@@ -172,7 +168,7 @@ const Portfolio = () => {
               </div>
               <div className="p-6">
                 <p className="text-gray-300 mb-4">
-                  Read about photography techniques, equipment reviews, and behind-the-scenes stories from my shoots.
+                  Read about my personal photography journey, tips, and experiences in the world of photography.
                 </p>
                 <span className="text-blue-400 group-hover:text-blue-300 font-medium">
                   Explore Articles →
@@ -213,7 +209,7 @@ const Portfolio = () => {
       {/* Footer */}
       <footer className="bg-black py-8 mt-16 border-t border-blue-500/30">
         <div className="container mx-auto px-4 text-center text-gray-400">
-          <p>&copy; 2024 Brian's Photography Portfolio. All rights reserved.</p>
+          <p>&copy; Brian's Photography PortPhotio. All rights reserved.</p>
         </div>
       </footer>
     </div>
