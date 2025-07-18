@@ -1,0 +1,5 @@
+# This file tells Railway this is a Python project
+# The actual requirements are in backend/requirements.txt
+# Railway will use the buildCommand to install from the correct location
+
+# Placeholder - actual requirements in backend/requirements.txt

@@ -134,7 +134,7 @@ def main():
     files_to_check = [
         ('railway.json', 'Railway configuration'),
         ('Procfile', 'Process definition'),
-        ('nixpacks.toml', 'Nixpacks configuration'),
+        ('requirements.txt', 'Root requirements (for Railway detection)'),
         ('.railwayignore', 'Railway ignore file'),
         ('runtime.txt', 'Python runtime specification'),
         ('backend/server.py', 'Main server file'),

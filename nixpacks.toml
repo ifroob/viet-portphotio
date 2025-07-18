@@ -1,4 +1,0 @@
-# Railway deployment configuration
-# This tells Railway to use the backend directory as the working directory
-
-backend/

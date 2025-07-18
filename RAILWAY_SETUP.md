@@ -21,7 +21,7 @@ portphotio/
 │   └── railway-monitoring.md # Monitoring documentation
 ├── railway.json              # Railway configuration
 ├── Procfile                  # Process definition
-├── nixpacks.toml            # Working directory specification
+├── requirements.txt          # Root requirements (for Railway detection)
 ├── .railwayignore           # Files to exclude from deployment
 ├── runtime.txt              # Python version
 ├── setup-deployment.sh      # Setup script

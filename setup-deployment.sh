@@ -46,13 +46,7 @@ else
 fi
 
 # Check if nixpacks.toml exists
-if [ ! -f "nixpacks.toml" ]; then
-    echo "❌ Creating nixpacks.toml..."
-    echo "backend/" > nixpacks.toml
-    echo "✅ Created nixpacks.toml"
-else
-    echo "✅ Found nixpacks.toml"
-fi
+# Note: We don't need nixpacks.toml anymore - Railway handles this via railway.json
 
 # Check if .railwayignore exists
 if [ ! -f ".railwayignore" ]; then
@@ -74,13 +68,19 @@ else
     echo "✅ Found .railwayignore"
 fi
 
-# Check if runtime.txt exists
-if [ ! -f "runtime.txt" ]; then
-    echo "❌ Creating runtime.txt..."
-    echo "python-3.11.0" > runtime.txt
-    echo "✅ Created runtime.txt"
+# Check if root requirements.txt exists (for Railway detection)
+if [ ! -f "requirements.txt" ]; then
+    echo "❌ Creating root requirements.txt for Railway detection..."
+    cat > requirements.txt << 'EOF'
+# This file tells Railway this is a Python project
+# The actual requirements are in backend/requirements.txt
+# Railway will use the buildCommand to install from the correct location
+
+# Placeholder - actual requirements in backend/requirements.txt
+EOF
+    echo "✅ Created root requirements.txt"
 else
-    echo "✅ Found runtime.txt"
+    echo "✅ Found root requirements.txt"
 fi
 
 # Check backend requirements
@@ -170,7 +170,7 @@ echo ""
 echo "🔧 Railway configuration files created:"
 echo "   ✅ railway.json - Railway deployment configuration"
 echo "   ✅ Procfile - Process definition"
-echo "   ✅ nixpacks.toml - Working directory configuration"
+echo "   ✅ requirements.txt - Root requirements for Railway detection"
 echo "   ✅ .railwayignore - Files to exclude from deployment"
 echo "   ✅ runtime.txt - Python version specification"
 echo ""
