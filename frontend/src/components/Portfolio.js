@@ -12,8 +12,11 @@ const Portfolio = () => {
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
   const [loading, setLoading] = useState(true);
 
-  // Placeholder background image - change this URL to update the background
-  const backgroundImage = "https://portphotio.s3.us-east-1.amazonaws.com/DSCF3849.JPG";
+  // Electric guitar-themed background image
+  const backgroundImage = "https://images.unsplash.com/photo-1520166012956-add9ba0835cb?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1NzZ8MHwxfHNlYXJjaHwyfHxlbGVjdHJpYyUyMGd1aXRhcnxlbnwwfHx8fDE3NTI5NjAxMzl8MA&ixlib=rb-4.1.0&q=85";
+  
+  // Professional avatar image
+  const avatarImage = "https://images.unsplash.com/photo-1560250097-0b93528c311a?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1ODB8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBoZWFkc2hvdHxlbnwwfHx8fDE3NTI5NTk2NjJ8MA&ixlib=rb-4.1.0&q=85";
 
   useEffect(() => {
     fetchPhotos();
@@ -39,24 +42,23 @@ const Portfolio = () => {
     }
   };
 
-
   const currentPhoto = photos[currentPhotoIndex];
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
-        <div className="text-white text-xl">Loading portfolio...</div>
+      <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-100 flex items-center justify-center">
+        <div className="text-amber-800 text-xl">Loading portfolio...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-100 text-amber-900">
       {/* Hero Section */}
       <div 
         className="relative py-20"
         style={{
-          background: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${backgroundImage})`,
+          background: `linear-gradient(rgba(139, 69, 19, 0.7), rgba(160, 82, 45, 0.7)), url(${backgroundImage})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat'
@@ -64,67 +66,93 @@ const Portfolio = () => {
       >
         <div className="container mx-auto px-4 text-center relative">
           <div className="mb-8">
+            {/* Avatar */}
             <img 
-              src="https://portphotio.s3.us-east-1.amazonaws.com/me.png"
-              alt="Brian"
-              className="w-48 h-48 rounded-full mx-auto mb-4 border-4 border-blue-400 shadow-lg transform hover:scale-110 transition-transform"
+              src={avatarImage}
+              alt="Viet"
+              className="w-48 h-48 rounded-full mx-auto mb-4 border-4 border-orange-400 shadow-xl transform hover:scale-110 transition-transform object-cover"
             />
-            <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold mb-4 bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-300 bg-clip-text text-transparent italic" style={{ fontFamily: 'cursive' }}>
-              Brian's PortPhotio
+            <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold mb-4 bg-gradient-to-r from-orange-300 via-yellow-300 to-orange-200 bg-clip-text text-transparent tracking-wide" style={{ fontFamily: 'serif' }}>
+              Viet's PortPhotio
             </h1>
-            <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-              Casual photographer messing around with photography. I shoot anything involving my interests! Friends, family, nature, travel, hobbies.
-              I got tired of Instagram throttling the resolution of my photos, so I decided to create this Portphotio.
+            <p className="text-xl text-orange-100 max-w-2xl mx-auto mb-6 leading-relaxed font-medium">
+              Welcome to my photography portfolio! I'm passionate about capturing life's electric moments through my lens. 
+              From dynamic street photography to high-energy portraits, I love exploring bold styles and techniques to create visually striking stories.
+            </p>
+            <p className="text-lg text-yellow-200 max-w-xl mx-auto italic font-semibold">
+              "Photography is the rhythm that makes memories rock."
             </p>
           </div>
           
-          {/* Quick Links */}
-          <div className="flex flex-wrap justify-center gap-4 mb-8">
-            <Link 
-              to="/blog" 
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors transform hover:scale-105"
-            >
-              📖 Photography Blog
-            </Link>
-            <Link 
-              to="/photos" 
-              className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium transition-colors transform hover:scale-105"
-            >
-              📸 More Photos
-            </Link>
-            <Link 
-              to="/tweaker" 
-              className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-medium transition-colors transform hover:scale-105"
-            >
-              🎛️ Recipe Tweaker
-            </Link>
+          {/* Equipment Section - Changed to Electric Guitar Gear */}
+          <div className="bg-black/80 backdrop-blur-sm p-8 rounded-lg max-w-4xl mx-auto border-2 border-orange-400 shadow-xl">
+            <h3 className="text-2xl font-semibold mb-6 text-orange-300 flex items-center justify-center">
+              <span className="mr-3">🎸</span>
+              Electric Guitar Rig
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-orange-100">
+              <div className="bg-gray-900/80 p-4 rounded-lg border border-orange-500">
+                <span className="text-orange-400 font-semibold block mb-1">Electric Guitar:</span> 
+                Fender Player Stratocaster HSS
+              </div>
+              <div className="bg-gray-900/80 p-4 rounded-lg border border-orange-500">
+                <span className="text-orange-400 font-semibold block mb-1">Amplifier:</span> 
+                Marshall DSL40CR Tube Amp
+              </div>
+              <div className="bg-gray-900/80 p-4 rounded-lg border border-orange-500">
+                <span className="text-orange-400 font-semibold block mb-1">Distortion Pedal:</span> 
+                Ibanez Tube Screamer TS9
+              </div>
+              <div className="bg-gray-900/80 p-4 rounded-lg border border-orange-500">
+                <span className="text-orange-400 font-semibold block mb-1">Delay Pedal:</span> 
+                Boss DD-7 Digital Delay
+              </div>
+              <div className="bg-gray-900/80 p-4 rounded-lg border border-orange-500">
+                <span className="text-orange-400 font-semibold block mb-1">Reverb Pedal:</span> 
+                Strymon Flint Tremolo & Reverb
+              </div>
+              <div className="bg-gray-900/80 p-4 rounded-lg border border-orange-500">
+                <span className="text-orange-400 font-semibold block mb-1">Wah Pedal:</span> 
+                Dunlop Cry Baby GCB95
+              </div>
+              <div className="bg-gray-900/80 p-4 rounded-lg border border-orange-500">
+                <span className="text-orange-400 font-semibold block mb-1">Guitar Strings:</span> 
+                Ernie Ball Regular Slinky (.010-.046)
+              </div>
+              <div className="bg-gray-900/80 p-4 rounded-lg border border-orange-500">
+                <span className="text-orange-400 font-semibold block mb-1">Guitar Cable:</span> 
+                Monster Rock Instrument Cable 21ft
+              </div>
+            </div>
           </div>
-          
-          {/* Camera Specs */}
-          <div className="bg-gray-800/90 backdrop-blur-sm p-6 rounded-lg max-w-4xl mx-auto border border-blue-500/30">
-            <h3 className="text-m font-semibold mb-4 text-blue-400">Equipment</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-white">
-              <div>
-                <span className="text-gray-400">Camera Body:</span> Fujifilm XS20
-              </div>
-              <div>
-                <span className="text-gray-400">Primary Lens:</span> Tamron 17-70mm f/2.8 Di III-A VC RXD
-              </div>
-              <div>
-                <span className="text-gray-400">Zoom Lens:</span> XC 50-230mm f/4.5-6.7 OIS II
-              </div>
-              <div>
-                <span className="text-gray-400">Macro Lens:</span> XF 90mm f/2 R LM WR
-              </div>
-              <div>
-                <span className="text-gray-400">Fisheye Lens:</span> Canon 8-15mm f/4L Fisheye USM
-              </div>
-              <div>
-                <span className="text-gray-400">Recipes:</span> TBD -- I tend to use Fuji Recipes found online.
-              </div>
-              <div>
-                <span className="text-gray-400">Storage:</span> SanDisk Extreme Pro 128GB
-              </div>
+        </div>
+      </div>
+
+      {/* About Section */}
+      <div className="container mx-auto px-4 py-16">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl font-bold mb-6 text-amber-800">About My Work</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            <div className="bg-gradient-to-br from-orange-50 to-amber-50 p-6 rounded-lg shadow-lg border-2 border-orange-300">
+              <div className="text-4xl mb-4">⚡</div>
+              <h3 className="text-xl font-semibold text-orange-800 mb-3">High-Energy Photography</h3>
+              <p className="text-amber-700">
+                Capturing dynamic moments with bold compositions that electrify the viewer and create powerful emotional connections.
+              </p>
+            </div>
+            <div className="bg-gradient-to-br from-yellow-50 to-orange-50 p-6 rounded-lg shadow-lg border-2 border-yellow-400">
+              <div className="text-4xl mb-4">🔥</div>
+              <h3 className="text-xl font-semibold text-orange-800 mb-3">Rock & Roll Aesthetics</h3>
+              <p className="text-amber-700">
+                Bringing the energy of rock music into visual storytelling with dramatic lighting and edgy compositions.
+              </p>
+            </div>
+            <div className="bg-gradient-to-br from-amber-50 to-red-50 p-6 rounded-lg shadow-lg border-2 border-red-400">
+              <div className="text-4xl mb-4">🎵</div>
+              <h3 className="text-xl font-semibold text-orange-800 mb-3">Music-Inspired Visuals</h3>
+              <p className="text-amber-700">
+                Creating photographs that resonate with rhythm and melody, making every shot feel like a visual symphony.
+              </p>
             </div>
           </div>
         </div>
@@ -132,11 +160,11 @@ const Portfolio = () => {
 
       {/* Photo Carousel */}
       <div className="container mx-auto px-2 sm:px-4 py-8 sm:py-16">
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-4 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-          Featured Work
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-4 bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
+          Featured Performances
         </h2>
-        <p className="text-center text-gray-400 mb-8 sm:mb-12 text-base sm:text-lg">
-          Photography Portphotio
+        <p className="text-center text-amber-700 mb-8 sm:mb-12 text-base sm:text-lg">
+          A collection of my most electrifying photographs that capture the energy and soul of every moment
         </p>
         {photos.length > 0 && (
           <PhotoCarousel 
@@ -147,56 +175,39 @@ const Portfolio = () => {
         )}
       </div>
 
-      {/* Section Links */}
-      <div className="bg-gray-800 py-16">
+      {/* Services Section */}
+      <div className="bg-gradient-to-br from-orange-100 to-red-100 py-16 border-y-2 border-orange-200">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-12 text-white">
-            Explore More
+          <h2 className="text-4xl font-bold text-center mb-12 text-orange-800">
+            Photography Services
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            <Link 
-              to="/blog" 
-              className="group bg-gray-900 rounded-lg overflow-hidden hover:transform hover:scale-105 transition-all duration-300"
-            >
-              <div className="h-48 bg-gradient-to-r from-blue-600 to-cyan-600 flex items-center justify-center">
-                <div className="text-center">
-                  <svg className="w-16 h-16 text-white mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                  </svg>
-                  <h3 className="text-2xl font-bold text-white">Photography Blog</h3>
-                </div>
-              </div>
-              <div className="p-6">
-                <p className="text-gray-300 mb-4">
-                  Read about my personal photography journey, tips, and experiences in the world of photography.
-                </p>
-                <span className="text-blue-400 group-hover:text-blue-300 font-medium">
-                  Explore Articles →
-                </span>
-              </div>
-            </Link>
-
-            <Link 
-              to="/photos" 
-              className="group bg-gray-900 rounded-lg overflow-hidden hover:transform hover:scale-105 transition-all duration-300"
-            >
-              <div className="h-48 bg-gradient-to-r from-green-600 to-teal-600 flex items-center justify-center">
-                <div className="text-center">
-                  <svg className="w-16 h-16 text-white mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                  <h3 className="text-2xl font-bold text-white">More Photos</h3>
-                </div>
-              </div>
-              <div className="p-6">
-                <p className="text-gray-300 mb-4">
-                  Browse through my extended collection of photographs organized by category and style.
-                </p>
-                <span className="text-blue-400 group-hover:text-blue-300 font-medium">
-                  View Gallery →
-                </span>
-              </div>
-            </Link>
+            <div className="bg-black/90 rounded-lg p-6 shadow-xl border-2 border-orange-500">
+              <h3 className="text-2xl font-bold text-orange-400 mb-4">⚡ High-Energy Sessions</h3>
+              <p className="text-orange-200 mb-4">
+                Dynamic photography sessions that capture your personality with the intensity of a live performance. 
+                Perfect for musicians, artists, and anyone who wants bold, electrifying portraits.
+              </p>
+              <ul className="text-orange-300 space-y-2">
+                <li>• Musician portraits & album covers</li>
+                <li>• Bold fashion photography</li>
+                <li>• Creative artistic headshots</li>
+                <li>• Band & group photography</li>
+              </ul>
+            </div>
+            <div className="bg-black/90 rounded-lg p-6 shadow-xl border-2 border-red-500">
+              <h3 className="text-2xl font-bold text-red-400 mb-4">🔥 Live Event Coverage</h3>
+              <p className="text-red-200 mb-4">
+                Capturing the raw energy and electric atmosphere of live events with a rock-and-roll edge 
+                that makes every moment feel epic and unforgettable.
+              </p>
+              <ul className="text-red-300 space-y-2">
+                <li>• Concert & live music photography</li>
+                <li>• Festival documentation</li>
+                <li>• Club & venue events</li>
+                <li>• High-energy celebrations</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -207,9 +218,10 @@ const Portfolio = () => {
       )}
 
       {/* Footer */}
-      <footer className="bg-black py-8 mt-16 border-t border-blue-500/30">
-        <div className="container mx-auto px-4 text-center text-gray-400">
-          <p>&copy; Brian's Photography PortPhotio. All rights reserved.</p>
+      <footer className="bg-black py-8 mt-16 border-t-4 border-orange-500">
+        <div className="container mx-auto px-4 text-center text-orange-300">
+          <p className="mb-2 font-bold">&copy; Viet's Photography Portfolio. All rights reserved.</p>
+          <p className="text-sm text-orange-400">🎸 contact@vietsphotography.com | 📱 (555) ROCK-123</p>
         </div>
       </footer>
     </div>

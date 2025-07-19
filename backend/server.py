@@ -55,7 +55,7 @@ else:
 
 # Create the main app without a prefix
 app = FastAPI(
-    title="Brian's Photography Portfolio API",
+    title="Viet's Photography Portfolio API",
     description="A comprehensive photography portfolio API with blog, gallery, and admin features",
     version="1.0.0"
 )
@@ -114,7 +114,7 @@ class Article(BaseModel):
     content: str
     excerpt: str
     slug: str
-    author: str = "Brian"
+    author: str = "Viet"
     tags: List[str] = []
     publish_date: datetime = Field(default_factory=datetime.utcnow)
     is_published: bool = True
@@ -272,12 +272,12 @@ async def monitoring_dashboard():
 # Root endpoint
 @app.get("/")
 async def root():
-    return {"message": "Brian's Photography Portfolio API", "status": "running"}
+    return {"message": "Viet's Photography Portfolio API", "status": "running"}
 
 # Existing routes
 @api_router.get("/")
 async def api_root():
-    return {"message": "Brian's Photography Portfolio API"}
+    return {"message": "Viet's Photography Portfolio API"}
 
 @api_router.post("/status", response_model=StatusCheck)
 async def create_status_check(input: StatusCheckCreate):
@@ -508,6 +508,18 @@ async def init_sample_data():
     
     # Sample photos with camera settings
     sample_photos = [
+        {
+            "title": "Rock Portrait Session",
+            "description": "Edgy portrait capturing the electric energy and attitude with dramatic lighting and urban aesthetic",
+            "image_url": "https://images.unsplash.com/photo-1600261731392-51f77bd1c0c0?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Nzd8MHwxfHNlYXJjaHwzfHxwaG90b2dyYXBoeSUyMHBvcnRyYWl0fGVufDB8fHx8MTc1Mjk2MDQ3OHww&ixlib=rb-4.1.0&q=85",
+            "camera_settings": {
+                "aperture": "f/2.8",
+                "shutter_speed": "1/160s",
+                "iso": "ISO 800",
+                "lens": "Fujifilm XF 56mm f/1.2",
+                "focal_length": "56mm"
+            }
+        },
         {
             "title": "Professional Portrait Session",
             "description": "A skilled photographer capturing the perfect moment during a professional portrait session",
@@ -798,6 +810,12 @@ Making mistakes is part of the learning process. The photographers who improve f
     # Sample gallery photos
     sample_gallery_photos = [
         {
+            "title": "Rock Portrait Session",
+            "image_url": "https://images.unsplash.com/photo-1600261731392-51f77bd1c0c0?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Nzd8MHwxfHNlYXJjaHwzfHxwaG90b2dyYXBoeSUyMHBvcnRyYWl0fGVufDB8fHx8MTc1Mjk2MDQ3OHww&ixlib=rb-4.1.0&q=85",
+            "description": "Edgy portrait with electric energy and dramatic urban lighting",
+            "category": "portrait"
+        },
+        {
             "title": "Urban Street Photography",
             "image_url": "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDF8MHwxfHNlYXJjaHwxfHxzdHJlZXQlMjBwaG90b2dyYXBoeXxlbnwwfHx8fDE3NTI0MjU1MTl8MA&ixlib=rb-4.1.0&q=85",
             "description": "Capturing the energy and movement of city life",
@@ -982,7 +1000,7 @@ app.add_middleware(
 @app.on_event("startup")
 async def startup_event():
     """Initialize app and create database indexes"""
-    logger.info("Starting Brian's Photography Portfolio API")
+    logger.info("Starting Viet's Photography Portfolio API")
     logger.info(f"Database: {db_name}")
     
     # Create database indexes for better performance

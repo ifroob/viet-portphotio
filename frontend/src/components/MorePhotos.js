@@ -80,21 +80,21 @@ const MorePhotos = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
-        <div className="text-white text-xl">Loading photos...</div>
+      <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-100 flex items-center justify-center">
+        <div className="text-amber-800 text-xl">Loading photos...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-100 text-amber-900">
       {/* Header */}
-      <div className="bg-gradient-to-r from-gray-800 to-gray-900 py-16">
+      <div className="bg-gradient-to-r from-amber-100 to-orange-200 py-16 border-b-2 border-amber-200">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-6xl font-bold mb-4 bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-300 bg-clip-text text-transparent">
+          <h1 className="text-6xl font-bold mb-4 bg-gradient-to-r from-amber-700 via-orange-600 to-amber-600 bg-clip-text text-transparent">
             More Photos
           </h1>
-          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+          <p className="text-xl text-amber-700 max-w-2xl mx-auto">
             Explore my extended collection of photography work across different categories and styles.
           </p>
         </div>
@@ -107,8 +107,8 @@ const MorePhotos = () => {
             onClick={() => setSelectedCategory("")}
             className={`px-4 py-2 rounded-full font-medium transition-colors ${
               selectedCategory === ""
-                ? "bg-blue-600 text-white"
-                : "bg-gray-800 text-gray-300 hover:bg-gray-700"
+                ? "bg-amber-600 text-white shadow-lg"
+                : "bg-white text-amber-700 hover:bg-amber-50 border border-amber-200"
             }`}
           >
             All Categories
@@ -119,8 +119,8 @@ const MorePhotos = () => {
               onClick={() => setSelectedCategory(category.category)}
               className={`px-4 py-2 rounded-full font-medium transition-colors ${
                 selectedCategory === category.category
-                  ? "bg-blue-600 text-white"
-                  : "bg-gray-800 text-gray-300 hover:bg-gray-700"
+                  ? "bg-amber-600 text-white shadow-lg"
+                  : "bg-white text-amber-700 hover:bg-amber-50 border border-amber-200"
               }`}
             >
               {category.category} ({category.count})
@@ -133,7 +133,7 @@ const MorePhotos = () => {
           {photos.map((photo, index) => (
             <div
               key={photo.id}
-              className="group relative aspect-square bg-gray-800 rounded-lg overflow-hidden cursor-pointer hover:transform hover:scale-105 transition-all duration-300"
+              className="group relative aspect-square bg-white rounded-lg overflow-hidden cursor-pointer hover:transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl border border-amber-200"
               onClick={() => openLightbox(photo)}
             >
               <img
@@ -142,16 +142,16 @@ const MorePhotos = () => {
                 className="w-full h-full object-cover group-hover:opacity-80 transition-opacity"
                 loading="lazy"
               />
-              <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-300 flex items-center justify-center">
+              <div className="absolute inset-0 bg-amber-900 bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex items-center justify-center">
                 <div className="opacity-0 group-hover:opacity-100 transition-opacity">
                   <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
                   </svg>
                 </div>
               </div>
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4 opacity-0 group-hover:opacity-100 transition-opacity">
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-amber-900 via-amber-800 to-transparent p-4 opacity-0 group-hover:opacity-100 transition-opacity">
                 <h3 className="text-white text-sm font-medium truncate">{photo.title}</h3>
-                <p className="text-gray-300 text-xs capitalize">{photo.category}</p>
+                <p className="text-amber-200 text-xs capitalize">{photo.category}</p>
               </div>
             </div>
           ))}
@@ -159,7 +159,7 @@ const MorePhotos = () => {
 
         {photos.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-gray-400 text-lg">
+            <p className="text-amber-600 text-lg">
               {selectedCategory ? 'No photos found in this category.' : 'No photos available.'}
             </p>
           </div>
@@ -168,12 +168,12 @@ const MorePhotos = () => {
 
       {/* Lightbox */}
       {selectedPhoto && (
-        <div className="fixed inset-0 bg-black bg-opacity-95 z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-amber-900 bg-opacity-95 z-50 flex items-center justify-center p-4">
           <div className="relative max-w-7xl max-h-full w-full h-full flex items-center justify-center">
             {/* Close Button */}
             <button
               onClick={closeLightbox}
-              className="absolute top-4 right-4 text-white text-2xl hover:text-gray-300 transition-colors z-10"
+              className="absolute top-4 right-4 text-white text-2xl hover:text-amber-200 transition-colors z-10 bg-amber-800 bg-opacity-50 rounded-full p-2"
             >
               <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -183,7 +183,7 @@ const MorePhotos = () => {
             {/* Previous Button */}
             <button
               onClick={prevPhoto}
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white text-2xl hover:text-gray-300 transition-colors z-10"
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white text-2xl hover:text-amber-200 transition-colors z-10 bg-amber-800 bg-opacity-50 rounded-full p-2"
             >
               <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -193,7 +193,7 @@ const MorePhotos = () => {
             {/* Next Button */}
             <button
               onClick={nextPhoto}
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white text-2xl hover:text-gray-300 transition-colors z-10"
+              className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white text-2xl hover:text-amber-200 transition-colors z-10 bg-amber-800 bg-opacity-50 rounded-full p-2"
             >
               <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -208,14 +208,14 @@ const MorePhotos = () => {
             />
 
             {/* Photo Info */}
-            <div className="absolute bottom-4 left-4 right-4 bg-black bg-opacity-75 rounded-lg p-4">
+            <div className="absolute bottom-4 left-4 right-4 bg-amber-900 bg-opacity-90 rounded-lg p-4 border border-amber-600">
               <h3 className="text-white text-lg font-bold mb-2">{selectedPhoto.title}</h3>
               {selectedPhoto.description && (
-                <p className="text-gray-300 text-sm mb-2">{selectedPhoto.description}</p>
+                <p className="text-amber-200 text-sm mb-2">{selectedPhoto.description}</p>
               )}
               <div className="flex items-center justify-between">
-                <span className="text-blue-400 text-sm capitalize">{selectedPhoto.category}</span>
-                <span className="text-gray-400 text-sm">
+                <span className="text-amber-300 text-sm capitalize">{selectedPhoto.category}</span>
+                <span className="text-amber-400 text-sm">
                   {photos.findIndex(p => p.id === selectedPhoto.id) + 1} / {photos.length}
                 </span>
               </div>

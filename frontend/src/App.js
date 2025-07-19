@@ -24,55 +24,35 @@ const Navigation = () => {
   const location = useLocation();
   
   return (
-    <nav className="bg-black text-white p-4 shadow-lg border-b border-blue-500/30">
+    <nav className="bg-gradient-to-r from-amber-100 to-orange-100 text-amber-900 p-4 shadow-lg border-b-2 border-amber-200">
       <div className="container mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
         <Link 
           to="/" 
-          className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent italic"
-          style={{ fontFamily: 'cursive' }}
+          className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-amber-700 to-orange-600 bg-clip-text text-transparent tracking-wide"
+          style={{ fontFamily: 'serif' }}
         >
-          Brian's PortPhotio
+          Viet's Portfolio
         </Link>
         <div className="flex flex-wrap justify-center gap-2 sm:gap-4 text-sm sm:text-base">
           <Link 
             to="/" 
             className={`text-sm sm:text-base transition-colors px-2 py-1 sm:px-3 sm:py-2 rounded ${
               location.pathname === '/' 
-                ? 'text-blue-400 bg-blue-500/20 border border-blue-500/50' 
-                : 'hover:text-blue-400'
+                ? 'text-amber-800 bg-amber-200 border border-amber-300' 
+                : 'hover:text-amber-700 hover:bg-amber-50'
             }`}
           >
             Portfolio
           </Link>
           <Link 
-            to="/blog" 
-            className={`text-sm sm:text-base transition-colors px-2 py-1 sm:px-3 sm:py-2 rounded ${
-              location.pathname.startsWith('/blog') 
-                ? 'text-blue-400 bg-blue-500/20 border border-blue-500/50' 
-                : 'hover:text-blue-400'
-            }`}
-          >
-            Blog
-          </Link>
-          <Link 
             to="/photos" 
             className={`text-sm sm:text-base transition-colors px-2 py-1 sm:px-3 sm:py-2 rounded ${
               location.pathname === '/photos' 
-                ? 'text-blue-400 bg-blue-500/20 border border-blue-500/50' 
-                : 'hover:text-blue-400'
+                ? 'text-amber-800 bg-amber-200 border border-amber-300' 
+                : 'hover:text-amber-700 hover:bg-amber-50'
             }`}
           >
             More Photos
-          </Link>
-          <Link 
-            to="/tweaker" 
-            className={`text-sm sm:text-base transition-colors px-2 py-1 sm:px-3 sm:py-2 rounded ${
-              location.pathname === '/tweaker' 
-                ? 'text-blue-400 bg-blue-500/20 border border-blue-500/50' 
-                : 'hover:text-blue-400'
-            }`}
-          >
-            Recipe Tweaker
           </Link>
         </div>
       </div>
