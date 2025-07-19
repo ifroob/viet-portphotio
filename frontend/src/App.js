@@ -16,6 +16,7 @@ import PhotoForm from "./components/admin/PhotoForm";
 import BlogManager from "./components/admin/BlogManager";
 import BlogForm from "./components/admin/BlogForm";
 import QuickUpload from "./components/admin/QuickUpload";
+import EnhancedUpload from "./components/admin/EnhancedUpload";
 import GalleryManager from "./components/admin/GalleryManager";
 import ProtectedRoute from "./components/admin/ProtectedRoute";
 
@@ -132,6 +133,11 @@ function App() {
             <Route path="/admin/upload" element={
               <ProtectedRoute>
                 <QuickUpload />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/enhanced-upload" element={
+              <ProtectedRoute>
+                <EnhancedUpload />
               </ProtectedRoute>
             } />
             <Route path="/admin/gallery" element={

@@ -140,18 +140,23 @@ const AdminDashboard = () => {
 
         {/* Quick Actions */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          {/* Quick Upload Card */}
-          <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
-            <h3 className="text-xl font-semibold mb-4 text-yellow-400">⚡ Quick Upload</h3>
-            <p className="text-gray-400 mb-4">
-              Fast and easy photo uploads from your S3 bucket to featured or gallery sections.
+          {/* Enhanced Upload Card - Featured */}
+          <div className="bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg p-6 border border-blue-500/30">
+            <h3 className="text-xl font-semibold mb-4 text-white flex items-center">
+              <span className="mr-2 text-2xl">🚀</span>
+              Enhanced Upload
+            </h3>
+            <p className="text-blue-100 mb-4">
+              Advanced drag & drop interface with batch editing, storage upload, and metadata management.
             </p>
-            <Link
-              to="/admin/upload"
-              className="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-md transition-colors inline-block"
-            >
-              Upload Photos
-            </Link>
+            <div className="flex space-x-2">
+              <Link
+                to="/admin/enhanced-upload"
+                className="bg-white text-blue-600 hover:bg-blue-50 px-4 py-2 rounded-md transition-colors font-medium flex-1 text-center"
+              >
+                Start Upload
+              </Link>
+            </div>
           </div>
 
           <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
@@ -177,6 +182,12 @@ const AdminDashboard = () => {
                 className="bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-md transition-colors text-sm"
               >
                 Manage Gallery
+              </Link>
+              <Link
+                to="/admin/upload"
+                className="bg-yellow-600 hover:bg-yellow-700 text-white px-3 py-2 rounded-md transition-colors text-sm"
+              >
+                Quick Upload
               </Link>
             </div>
           </div>

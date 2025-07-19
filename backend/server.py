@@ -10,6 +10,9 @@ from typing import List, Optional
 import uuid
 from datetime import datetime
 import psutil
+import boto3
+from botocore.exceptions import ClientError, NoCredentialsError
+import mimetypes
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
@@ -27,6 +30,28 @@ db_name = os.environ.get('DB_NAME', 'portfolio_db')
 
 client = AsyncIOMotorClient(mongo_url)
 db = client[db_name]
+
+# AWS S3 Configuration
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+AWS_REGION = os.environ.get('AWS_REGION', 'us-east-1')
+AWS_BUCKET_NAME = os.environ.get('AWS_BUCKET_NAME')
+
+# Initialize S3 client
+s3_client = None
+if AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY and AWS_BUCKET_NAME:
+    try:
+        s3_client = boto3.client(
+            's3',
+            aws_access_key_id=AWS_ACCESS_KEY_ID,
+            aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+            region_name=AWS_REGION
+        )
+        logger.info("S3 client initialized successfully")
+    except Exception as e:
+        logger.error(f"Failed to initialize S3 client: {str(e)}")
+else:
+    logger.warning("S3 credentials not provided - upload functionality will be limited")
 
 # Create the main app without a prefix
 app = FastAPI(
@@ -132,6 +157,22 @@ class GalleryPhotoCreate(BaseModel):
     thumbnail_url: Optional[str] = None
     description: Optional[str] = None
     category: str = "general"
+
+# S3 Upload Models
+class S3UploadRequest(BaseModel):
+    filename: str
+    content_type: str
+    upload_type: str  # 'featured' or 'gallery'
+
+class S3UploadResponse(BaseModel):
+    upload_url: str
+    file_url: str
+    key: str
+
+class S3UploadComplete(BaseModel):
+    key: str
+    upload_type: str
+    metadata: dict
 
 # Health check endpoint for Railway
 @app.get("/health")
