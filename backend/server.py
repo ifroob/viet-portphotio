@@ -973,7 +973,7 @@ origins = [
     "https://localhost:3000",  # Local development with HTTPS
     "http://127.0.0.1:3000",  # Local development alternative
     "https://127.0.0.1:3000", # Local development alternative
-    "https://portphotio.vercel.app",  # Production frontend URL
+    "https://viet-portphotio.vercel.app",  # Production frontend URL
 ]
 
 # Add production origins
