@@ -122,32 +122,57 @@ const EnhancedUpload = () => {
     })));
   };
 
-  // Simulate S3 upload (replace with actual S3 integration)
+  // Upload file to S3 using presigned URL
   const uploadToStorage = async (file, fileId) => {
-    return new Promise((resolve, reject) => {
-      // Simulate upload progress
-      let progress = 0;
-      const interval = setInterval(() => {
-        progress += Math.random() * 30;
-        setUploadProgress(prev => ({ ...prev, [fileId]: Math.min(progress, 95) }));
-        
-        if (progress >= 100) {
-          clearInterval(interval);
-          // Simulate successful upload with a mock S3 URL
-          const mockS3Url = `https://your-bucket.s3.amazonaws.com/photos/${Date.now()}-${file.name}`;
-          setUploadProgress(prev => ({ ...prev, [fileId]: 100 }));
-          resolve(mockS3Url);
+    try {
+      // Get presigned URL from backend
+      const presignedResponse = await axios.post(`${API}/upload/presigned-url`, {
+        filename: file.name,
+        content_type: file.type,
+        upload_type: uploadType
+      });
+
+      const { upload_url, file_url, key } = presignedResponse.data;
+
+      // Upload file directly to S3 using presigned URL
+      await axios.put(upload_url, file, {
+        headers: {
+          'Content-Type': file.type,
+        },
+        onUploadProgress: (progressEvent) => {
+          const progress = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+          setUploadProgress(prev => ({ ...prev, [fileId]: progress }));
         }
-      }, 200);
+      });
+
+      // Notify backend that upload is complete
+      await axios.post(`${API}/upload/complete`, {
+        key: key,
+        upload_type: uploadType,
+        metadata: {
+          filename: file.name,
+          size: file.size,
+          type: file.type
+        }
+      });
+
+      // Return the final S3 URL
+      return file_url;
+
+    } catch (error) {
+      console.error('S3 Upload error:', error);
       
-      // Simulate potential failure (5% chance)
-      setTimeout(() => {
-        if (Math.random() < 0.05) {
-          clearInterval(interval);
-          reject(new Error('Upload failed'));
-        }
-      }, 1000);
-    });
+      // More specific error messages
+      if (error.response?.status === 500) {
+        throw new Error('Server error during upload. Please try again.');
+      } else if (error.response?.status === 404) {
+        throw new Error('Upload service not found. Please contact support.');
+      } else if (error.message.includes('Network Error')) {
+        throw new Error('Network error. Please check your connection.');
+      } else {
+        throw new Error(`Upload failed: ${error.response?.data?.detail || error.message}`);
+      }
+    }
   };
 
   // Upload individual file
@@ -157,13 +182,16 @@ const EnhancedUpload = () => {
         f.id === fileData.id ? { ...f, uploading: true, error: null } : f
       ));
 
-      // Upload to storage service
-      const storageUrl = await uploadToStorage(fileData.file, fileData.id);
+      // Upload to S3 storage service
+      const uploadResult = await uploadToStorage(fileData.file, fileData.id);
       
-      // Update file with storage URL
+      // Extract S3 key from the URL for potential deletion later
+      const s3Key = uploadResult.split('.amazonaws.com/')[1];
+      
+      // Update file with storage URL and S3 key
       setUploadedFiles(prev => prev.map(f => 
         f.id === fileData.id 
-          ? { ...f, storageUrl, uploading: false, uploaded: true }
+          ? { ...f, storageUrl: uploadResult, s3Key: s3Key, uploading: false, uploaded: true }
           : f
       ));
 
@@ -235,8 +263,22 @@ const EnhancedUpload = () => {
     setUploading(false);
   };
 
-  // Remove file
+  // Remove file and delete from S3 if already uploaded
   const removeFile = (fileId) => {
+    const fileToRemove = uploadedFiles.find(f => f.id === fileId);
+    
+    // If file was uploaded to S3, attempt to delete it
+    if (fileToRemove && fileToRemove.storageUrl && fileToRemove.s3Key) {
+      axios.delete(`${API}/upload/${fileToRemove.s3Key}`)
+        .then(() => {
+          console.log('File deleted from S3 successfully');
+        })
+        .catch(error => {
+          console.warn('Failed to delete file from S3:', error);
+          // Continue with removal from UI even if S3 deletion fails
+        });
+    }
+
     setUploadedFiles(prev => prev.filter(f => f.id !== fileId));
     setUploadProgress(prev => {
       const newProgress = { ...prev };
@@ -605,7 +647,7 @@ const EnhancedUpload = () => {
 
         {/* Instructions */}
         <div className="bg-gray-800/50 rounded-lg p-6 border border-gray-700">
-          <h3 className="text-lg font-semibold text-gray-200 mb-3">📋 How to Use</h3>
+          <h3 className="text-lg font-semibold text-gray-200 mb-3">📋 How to Use Enhanced Upload</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-gray-400">
             <div>
               <h4 className="text-blue-400 font-medium mb-2">Upload Process</h4>
@@ -614,20 +656,28 @@ const EnhancedUpload = () => {
                 <li>Set batch settings for common fields</li>
                 <li>Drag & drop or select multiple photos</li>
                 <li>Edit individual photo metadata</li>
-                <li>Upload photos to storage service</li>
-                <li>Submit to your portfolio</li>
+                <li>Upload photos directly to AWS S3</li>
+                <li>Submit to your portfolio database</li>
               </ol>
             </div>
             <div>
               <h4 className="text-green-400 font-medium mb-2">Pro Tips</h4>
               <ul className="space-y-1 list-disc list-inside">
+                <li>Files upload directly to your S3 bucket securely</li>
                 <li>Use batch settings to save time on common fields</li>
                 <li>File names become default titles</li>
-                <li>You can upload to storage and edit metadata simultaneously</li>
+                <li>Upload progress shows real-time status</li>
                 <li>Remove unwanted photos before uploading</li>
-                <li>Check upload progress in the overlay</li>
+                <li>Uploaded files are automatically stored with unique names</li>
               </ul>
             </div>
+          </div>
+          <div className="mt-4 pt-4 border-t border-gray-700">
+            <h4 className="text-yellow-400 font-medium mb-2">🔧 S3 Integration Active</h4>
+            <p className="text-gray-400 text-sm">
+              Photos are uploaded directly to your AWS S3 bucket using secure presigned URLs. 
+              This ensures fast, reliable uploads without exposing your AWS credentials.
+            </p>
           </div>
         </div>
       </div>

@@ -179,7 +179,7 @@ class S3UploadComplete(BaseModel):
 async def health_check():
     try:
         # Test database connection
-        await db.admin.command('ping')
+        await db.command('ping')
         return {"status": "healthy", "database": "connected"}
     except Exception as e:
         raise HTTPException(status_code=503, detail=f"Database connection failed: {str(e)}")
@@ -203,7 +203,7 @@ async def detailed_health_check():
     """Detailed health check with resource usage"""
     try:
         # Test database connection
-        await db.admin.command('ping')
+        await db.command('ping')
         db_status = "connected"
         
         # Get collection counts
@@ -865,6 +865,86 @@ Making mistakes is part of the learning process. The photographers who improve f
         await db.gallery.insert_one(gallery_photo_obj.dict())
     
     return {"message": "Sample data initialized successfully"}
+
+# S3 Upload endpoints
+@api_router.post("/upload/presigned-url", response_model=S3UploadResponse)
+async def get_presigned_upload_url(request: S3UploadRequest):
+    """Generate presigned URL for direct S3 upload"""
+    if not s3_client:
+        raise HTTPException(status_code=500, detail="S3 not configured")
+    
+    try:
+        # Generate unique key for the file
+        file_extension = request.filename.split('.')[-1] if '.' in request.filename else ''
+        unique_filename = f"{uuid.uuid4()}.{file_extension}" if file_extension else str(uuid.uuid4())
+        key = f"uploads/{request.upload_type}/{unique_filename}"
+        
+        # Generate presigned URL for PUT operation
+        presigned_url = s3_client.generate_presigned_url(
+            'put_object',
+            Params={
+                'Bucket': AWS_BUCKET_NAME,
+                'Key': key,
+                'ContentType': request.content_type
+            },
+            ExpiresIn=3600  # 1 hour
+        )
+        
+        # Generate the final public URL
+        file_url = f"https://{AWS_BUCKET_NAME}.s3.{AWS_REGION}.amazonaws.com/{key}"
+        
+        return S3UploadResponse(
+            upload_url=presigned_url,
+            file_url=file_url,
+            key=key
+        )
+        
+    except Exception as e:
+        logger.error(f"Error generating presigned URL: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to generate upload URL: {str(e)}")
+
+@api_router.post("/upload/complete")
+async def upload_complete(request: S3UploadComplete):
+    """Handle upload completion and optionally verify file exists"""
+    if not s3_client:
+        raise HTTPException(status_code=500, detail="S3 not configured")
+    
+    try:
+        # Verify file exists in S3
+        s3_client.head_object(Bucket=AWS_BUCKET_NAME, Key=request.key)
+        
+        logger.info(f"Upload completed successfully for key: {request.key}")
+        return {
+            "success": True,
+            "message": "Upload completed successfully",
+            "key": request.key,
+            "upload_type": request.upload_type
+        }
+        
+    except ClientError as e:
+        if e.response['Error']['Code'] == '404':
+            raise HTTPException(status_code=404, detail="File not found in S3")
+        else:
+            logger.error(f"Error verifying upload: {str(e)}")
+            raise HTTPException(status_code=500, detail=f"Error verifying upload: {str(e)}")
+    except Exception as e:
+        logger.error(f"Error in upload completion: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Upload verification failed: {str(e)}")
+
+@api_router.delete("/upload/{key:path}")
+async def delete_uploaded_file(key: str):
+    """Delete a file from S3"""
+    if not s3_client:
+        raise HTTPException(status_code=500, detail="S3 not configured")
+    
+    try:
+        s3_client.delete_object(Bucket=AWS_BUCKET_NAME, Key=key)
+        logger.info(f"File deleted successfully: {key}")
+        return {"success": True, "message": "File deleted successfully"}
+        
+    except Exception as e:
+        logger.error(f"Error deleting file {key}: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to delete file: {str(e)}")
 
 # Include the router in the main app
 app.include_router(api_router)
