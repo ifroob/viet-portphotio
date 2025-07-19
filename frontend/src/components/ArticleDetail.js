@@ -157,7 +157,7 @@ const ArticleDetail = () => {
             <img
               src={article.featured_image}
               alt={article.title}
-              className="w-full h-64 md:h-96 object-cover rounded-lg mb-8"
+              className="w-full h-32 md:h-48 object-cover rounded-lg mb-8"
             />
           )}
 
@@ -205,13 +205,13 @@ const ArticleDetail = () => {
           <div className="mt-12 pt-8 border-t border-gray-700">
             <div className="flex items-center">
               <img 
-                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face"
+                src="https://portphotio.s3.us-east-1.amazonaws.com/me.png"
                 alt="Brian"
                 className="w-16 h-16 rounded-full mr-4"
               />
               <div>
                 <h3 className="text-xl font-bold text-white">Brian</h3>
-                <p className="text-gray-400">Professional Photographer</p>
+                <p className="text-gray-400">Casual Photographer</p>
               </div>
             </div>
           </div>
