@@ -16,7 +16,7 @@ const Portfolio = () => {
   const backgroundImage = "https://images.unsplash.com/photo-1520166012956-add9ba0835cb?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1NzZ8MHwxfHNlYXJjaHwyfHxlbGVjdHJpYyUyMGd1aXRhcnxlbnwwfHx8fDE3NTI5NjAxMzl8MA&ixlib=rb-4.1.0&q=85";
   
   // Professional avatar image
-  const avatarImage = "https://images.unsplash.com/photo-1560250097-0b93528c311a?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1ODB8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBoZWFkc2hvdHxlbnwwfHx8fDE3NTI5NTk2NjJ8MA&ixlib=rb-4.1.0&q=85";
+  const avatarImage = "";
 
   useEffect(() => {
     fetchPhotos();
@@ -76,8 +76,7 @@ const Portfolio = () => {
               Viet's PortPhotio
             </h1>
             <p className="text-xl text-orange-100 max-w-2xl mx-auto mb-6 leading-relaxed font-medium">
-              Welcome to my photography portfolio! I'm passionate about capturing life's electric moments through my lens. 
-              From dynamic street photography to high-energy portraits, I love exploring bold styles and techniques to create visually striking stories.
+              Hi I'm Viet, welcome.
             </p>
             <p className="text-lg text-yellow-200 max-w-xl mx-auto italic font-semibold">
               "Photography is the rhythm that makes memories rock."
