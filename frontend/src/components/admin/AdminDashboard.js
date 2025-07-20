@@ -142,7 +142,7 @@ const AdminDashboard = () => {
         </div>
 
         {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
           {/* Enhanced Upload Card - Featured */}
           <div className="bg-gradient-to-br from-orange-600/90 to-amber-600/90 rounded-lg p-6 border-2 border-orange-400/50 shadow-xl">
             <h3 className="text-xl font-semibold mb-4 text-white flex items-center">
@@ -158,6 +158,44 @@ const AdminDashboard = () => {
                 className="bg-white text-orange-600 hover:bg-orange-50 px-4 py-2 rounded-md transition-all font-medium flex-1 text-center transform hover:scale-105 shadow-lg"
               >
                 Start Upload
+              </Link>
+            </div>
+          </div>
+
+          {/* Portfolio Settings Card */}
+          <div className="bg-gradient-to-br from-purple-600/90 to-indigo-600/90 rounded-lg p-6 border-2 border-purple-400/50 shadow-xl">
+            <h3 className="text-xl font-semibold mb-4 text-white flex items-center">
+              <span className="mr-2 text-2xl">🎸</span>
+              Portfolio Settings
+            </h3>
+            <p className="text-purple-100 mb-4">
+              Customize your avatar, main text content, equipment list, and personal information.
+            </p>
+            <div className="flex space-x-2">
+              <Link
+                to="/admin/portfolio"
+                className="bg-white text-purple-600 hover:bg-purple-50 px-4 py-2 rounded-md transition-all font-medium flex-1 text-center transform hover:scale-105 shadow-lg"
+              >
+                Manage Portfolio
+              </Link>
+            </div>
+          </div>
+
+          {/* SEO Settings Card */}
+          <div className="bg-gradient-to-br from-green-600/90 to-teal-600/90 rounded-lg p-6 border-2 border-green-400/50 shadow-xl">
+            <h3 className="text-xl font-semibold mb-4 text-white flex items-center">
+              <span className="mr-2 text-2xl">🔍</span>
+              SEO & Social Media
+            </h3>
+            <p className="text-green-100 mb-4">
+              Configure SEO meta tags and social media sharing for Facebook, Instagram, YouTube, and Twitter.
+            </p>
+            <div className="flex space-x-2">
+              <Link
+                to="/admin/seo"
+                className="bg-white text-green-600 hover:bg-green-50 px-4 py-2 rounded-md transition-all font-medium flex-1 text-center transform hover:scale-105 shadow-lg"
+              >
+                Manage SEO
               </Link>
             </div>
           </div>

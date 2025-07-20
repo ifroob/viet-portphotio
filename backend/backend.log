@@ -1,0 +1,28 @@
+INFO:     Will watch for changes in these directories: ['/app/viet-portphotio/backend']
+INFO:     Uvicorn running on http://0.0.0.0:8001 (Press CTRL+C to quit)
+INFO:     Started reloader process [264] using WatchFiles
+2025-07-20 11:25:43,989 - server - WARNING - S3 credentials not provided - upload functionality will be limited
+INFO:     Started server process [269]
+INFO:     Waiting for application startup.
+2025-07-20 11:25:44,044 - server - INFO - Starting Viet's Photography Portfolio API
+2025-07-20 11:25:44,044 - server - INFO - Database: test_database
+2025-07-20 11:25:44,053 - server - INFO - Database indexes created successfully
+2025-07-20 11:25:44,053 - server - INFO - API is ready to serve requests
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'server.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+2025-07-20 11:26:04,808 - server - INFO - Shutting down database connection
+INFO:     Application shutdown complete.
+INFO:     Finished server process [269]
+2025-07-20 11:26:06,361 - server - WARNING - S3 credentials not provided - upload functionality will be limited
+INFO:     Started server process [301]
+INFO:     Waiting for application startup.
+2025-07-20 11:26:06,431 - server - INFO - Starting Viet's Photography Portfolio API
+2025-07-20 11:26:06,431 - server - INFO - Database: test_database
+2025-07-20 11:26:06,441 - server - INFO - Database indexes created successfully
+2025-07-20 11:26:06,441 - server - INFO - API is ready to serve requests
+INFO:     Application startup complete.
+INFO:     127.0.0.1:49174 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48064 - "GET /api/portfolio-settings HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48072 - "GET /api/seo-settings HTTP/1.1" 200 OK

@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
 import { BrowserRouter, Routes, Route, Link, useLocation } from "react-router-dom";
+import { HelmetProvider } from 'react-helmet-async';
 import { AuthProvider } from "./contexts/AuthContext";
 import Portfolio from "./components/Portfolio";
 import PhotoTweaker from "./components/PhotoTweaker";
@@ -18,6 +19,8 @@ import BlogForm from "./components/admin/BlogForm";
 import QuickUpload from "./components/admin/QuickUpload";
 import EnhancedUpload from "./components/admin/EnhancedUpload";
 import GalleryManager from "./components/admin/GalleryManager";
+import PortfolioManager from "./components/admin/PortfolioManager";
+import SEOManager from "./components/admin/SEOManager";
 import ProtectedRoute from "./components/admin/ProtectedRoute";
 
 const Navigation = () => {
@@ -63,8 +66,9 @@ const Navigation = () => {
 function App() {
   return (
     <div className="App">
-      <AuthProvider>
-        <BrowserRouter>
+      <HelmetProvider>
+        <AuthProvider>
+          <BrowserRouter>
           <Routes>
             {/* Public Routes */}
             <Route path="/" element={<><Navigation /><Portfolio /></>} />
@@ -125,9 +129,20 @@ function App() {
                 <GalleryManager />
               </ProtectedRoute>
             } />
+            <Route path="/admin/portfolio" element={
+              <ProtectedRoute>
+                <PortfolioManager />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/seo" element={
+              <ProtectedRoute>
+                <SEOManager />
+              </ProtectedRoute>
+            } />
           </Routes>
         </BrowserRouter>
       </AuthProvider>
+    </HelmetProvider>
     </div>
   );
 }

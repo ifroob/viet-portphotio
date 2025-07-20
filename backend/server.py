@@ -174,6 +174,78 @@ class S3UploadComplete(BaseModel):
     upload_type: str
     metadata: dict
 
+# Portfolio Settings Models
+class EquipmentItem(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    name: str
+    description: str
+    category: str = "general"
+
+class PortfolioSettings(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    avatar_urls: List[str] = []
+    selected_avatar_index: int = 0
+    main_title: str = "Viet's PortPhotio"
+    main_subtitle: str = "Hi I'm Viet, welcome."
+    main_quote: str = "Photography is the rhythm that makes memories rock."
+    about_title: str = "About My Work"
+    services_title: str = "Photography Services"
+    equipment_title: str = "Electric Guitar Rig"
+    equipment_items: List[EquipmentItem] = []
+    contact_email: str = "contact@vietsphotography.com"
+    contact_phone: str = "(555) ROCK-123"
+    timestamp: datetime = Field(default_factory=datetime.utcnow)
+
+class PortfolioSettingsCreate(BaseModel):
+    avatar_urls: Optional[List[str]] = None
+    selected_avatar_index: Optional[int] = None
+    main_title: Optional[str] = None
+    main_subtitle: Optional[str] = None
+    main_quote: Optional[str] = None
+    about_title: Optional[str] = None
+    services_title: Optional[str] = None
+    equipment_title: Optional[str] = None
+    equipment_items: Optional[List[EquipmentItem]] = None
+    contact_email: Optional[str] = None
+    contact_phone: Optional[str] = None
+
+# SEO Settings Models
+class SocialMediaSettings(BaseModel):
+    facebook_url: Optional[str] = None
+    instagram_url: Optional[str] = None
+    youtube_url: Optional[str] = None
+    twitter_url: Optional[str] = None
+
+class SEOSettings(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    site_title: str = "Viet's Photography Portfolio"
+    site_description: str = "Professional photography services with a rock and roll edge"
+    site_keywords: List[str] = ["photography", "portrait", "music", "rock", "professional"]
+    og_title: Optional[str] = None
+    og_description: Optional[str] = None
+    og_image: Optional[str] = None
+    og_url: Optional[str] = None
+    twitter_card_type: str = "summary_large_image"
+    twitter_title: Optional[str] = None
+    twitter_description: Optional[str] = None
+    twitter_image: Optional[str] = None
+    social_media: SocialMediaSettings = Field(default_factory=SocialMediaSettings)
+    timestamp: datetime = Field(default_factory=datetime.utcnow)
+
+class SEOSettingsCreate(BaseModel):
+    site_title: Optional[str] = None
+    site_description: Optional[str] = None
+    site_keywords: Optional[List[str]] = None
+    og_title: Optional[str] = None
+    og_description: Optional[str] = None
+    og_image: Optional[str] = None
+    og_url: Optional[str] = None
+    twitter_card_type: Optional[str] = None
+    twitter_title: Optional[str] = None
+    twitter_description: Optional[str] = None
+    twitter_image: Optional[str] = None
+    social_media: Optional[SocialMediaSettings] = None
+
 # Health check endpoint for Railway
 @app.get("/health")
 async def health_check():
@@ -883,6 +955,135 @@ Making mistakes is part of the learning process. The photographers who improve f
         await db.gallery.insert_one(gallery_photo_obj.dict())
     
     return {"message": "Sample data initialized successfully"}
+
+# Portfolio Settings endpoints
+@api_router.get("/portfolio-settings", response_model=PortfolioSettings)
+async def get_portfolio_settings():
+    """Get current portfolio settings"""
+    settings = await db.portfolio_settings.find_one()
+    if not settings:
+        # Create default settings
+        default_settings = PortfolioSettings()
+        await db.portfolio_settings.insert_one(default_settings.dict())
+        return default_settings
+    return PortfolioSettings(**settings)
+
+@api_router.put("/portfolio-settings", response_model=PortfolioSettings)
+async def update_portfolio_settings(settings_update: PortfolioSettingsCreate):
+    """Update portfolio settings"""
+    existing_settings = await db.portfolio_settings.find_one()
+    
+    if not existing_settings:
+        # Create new settings if none exist
+        update_dict = settings_update.dict(exclude_none=True)
+        new_settings = PortfolioSettings(**update_dict)
+        await db.portfolio_settings.insert_one(new_settings.dict())
+        return new_settings
+    
+    # Update existing settings
+    update_dict = settings_update.dict(exclude_none=True)
+    update_dict["timestamp"] = datetime.utcnow()
+    
+    await db.portfolio_settings.update_one(
+        {"id": existing_settings["id"]}, 
+        {"$set": update_dict}
+    )
+    
+    updated_settings = await db.portfolio_settings.find_one({"id": existing_settings["id"]})
+    return PortfolioSettings(**updated_settings)
+
+@api_router.post("/portfolio-settings/equipment", response_model=PortfolioSettings)
+async def add_equipment_item(item: EquipmentItem):
+    """Add equipment item"""
+    settings = await db.portfolio_settings.find_one()
+    if not settings:
+        # Create default settings with the new item
+        default_settings = PortfolioSettings(equipment_items=[item])
+        await db.portfolio_settings.insert_one(default_settings.dict())
+        return default_settings
+    
+    # Add item to existing equipment
+    await db.portfolio_settings.update_one(
+        {"id": settings["id"]},
+        {"$push": {"equipment_items": item.dict()}}
+    )
+    
+    updated_settings = await db.portfolio_settings.find_one({"id": settings["id"]})
+    return PortfolioSettings(**updated_settings)
+
+@api_router.delete("/portfolio-settings/equipment/{item_id}")
+async def delete_equipment_item(item_id: str):
+    """Delete equipment item"""
+    settings = await db.portfolio_settings.find_one()
+    if not settings:
+        raise HTTPException(status_code=404, detail="Portfolio settings not found")
+    
+    await db.portfolio_settings.update_one(
+        {"id": settings["id"]},
+        {"$pull": {"equipment_items": {"id": item_id}}}
+    )
+    
+    return {"message": "Equipment item deleted successfully"}
+
+@api_router.put("/portfolio-settings/equipment/{item_id}", response_model=PortfolioSettings)
+async def update_equipment_item(item_id: str, item_update: EquipmentItem):
+    """Update equipment item"""
+    settings = await db.portfolio_settings.find_one()
+    if not settings:
+        raise HTTPException(status_code=404, detail="Portfolio settings not found")
+    
+    # Find and update the specific equipment item
+    equipment_items = settings.get("equipment_items", [])
+    for i, item in enumerate(equipment_items):
+        if item.get("id") == item_id:
+            equipment_items[i] = item_update.dict()
+            break
+    else:
+        raise HTTPException(status_code=404, detail="Equipment item not found")
+    
+    await db.portfolio_settings.update_one(
+        {"id": settings["id"]},
+        {"$set": {"equipment_items": equipment_items}}
+    )
+    
+    updated_settings = await db.portfolio_settings.find_one({"id": settings["id"]})
+    return PortfolioSettings(**updated_settings)
+
+# SEO Settings endpoints
+@api_router.get("/seo-settings", response_model=SEOSettings)
+async def get_seo_settings():
+    """Get current SEO settings"""
+    settings = await db.seo_settings.find_one()
+    if not settings:
+        # Create default settings
+        default_settings = SEOSettings()
+        await db.seo_settings.insert_one(default_settings.dict())
+        return default_settings
+    return SEOSettings(**settings)
+
+@api_router.put("/seo-settings", response_model=SEOSettings)
+async def update_seo_settings(settings_update: SEOSettingsCreate):
+    """Update SEO settings"""
+    existing_settings = await db.seo_settings.find_one()
+    
+    if not existing_settings:
+        # Create new settings if none exist
+        update_dict = settings_update.dict(exclude_none=True)
+        new_settings = SEOSettings(**update_dict)
+        await db.seo_settings.insert_one(new_settings.dict())
+        return new_settings
+    
+    # Update existing settings
+    update_dict = settings_update.dict(exclude_none=True)
+    update_dict["timestamp"] = datetime.utcnow()
+    
+    await db.seo_settings.update_one(
+        {"id": existing_settings["id"]}, 
+        {"$set": update_dict}
+    )
+    
+    updated_settings = await db.seo_settings.find_one({"id": existing_settings["id"]})
+    return SEOSettings(**updated_settings)
 
 # S3 Upload endpoints
 @api_router.post("/upload/presigned-url", response_model=S3UploadResponse)

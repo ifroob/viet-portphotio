@@ -3,34 +3,56 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import PhotoCarousel from "./PhotoCarousel";
 import CommentSection from "./CommentSection";
+import SEOHead from "./SEOHead";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
 const Portfolio = () => {
   const [photos, setPhotos] = useState([]);
+  const [portfolioSettings, setPortfolioSettings] = useState(null);
+  const [seoSettings, setSeoSettings] = useState(null);
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
   const [loading, setLoading] = useState(true);
 
-  // Electric guitar-themed background image
-  const backgroundImage = "https://images.unsplash.com/photo-1520166012956-add9ba0835cb?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1NzZ8MHwxfHNlYXJjaHwyfHxlbGVjdHJpYyUyMGd1aXRhcnxlbnwwfHx8fDE3NTI5NjAxMzl8MA&ixlib=rb-4.1.0&q=85";
-  
-  // Professional avatar image
-  const avatarImage = "https://images.unsplash.com/photo-1520166012956-add9ba0835cb?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1NzZ8MHwxfHNlYXJjaHwyfHxlbGVjdHJpYyUyMGd1aXRhcnxlbnwwfHx8fDE3NTI5NjAxMzl8MA&ixlib=rb-4.1.0&q=85";
+  // Default fallback image
+  const defaultBackgroundImage = "https://images.unsplash.com/photo-1520166012956-add9ba0835cb?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1NzZ8MHwxfHNlYXJjaHwyfHxlbGVjdHJpYyUyMGd1aXRhcnxlbnwwfHx8fDE3NTI5NjAxMzl8MA&ixlib=rb-4.1.0&q=85";
 
   useEffect(() => {
-    fetchPhotos();
-    initializeSampleData();
+    Promise.all([
+      fetchPhotos(),
+      fetchPortfolioSettings(),
+      fetchSeoSettings(),
+      initializeSampleData()
+    ]).then(() => {
+      setLoading(false);
+    });
   }, []);
 
   const fetchPhotos = async () => {
     try {
       const response = await axios.get(`${API}/photos`);
       setPhotos(response.data);
-      setLoading(false);
     } catch (error) {
       console.error("Error fetching photos:", error);
-      setLoading(false);
+    }
+  };
+
+  const fetchPortfolioSettings = async () => {
+    try {
+      const response = await axios.get(`${API}/portfolio-settings`);
+      setPortfolioSettings(response.data);
+    } catch (error) {
+      console.error("Error fetching portfolio settings:", error);
+    }
+  };
+
+  const fetchSeoSettings = async () => {
+    try {
+      const response = await axios.get(`${API}/seo-settings`);
+      setSeoSettings(response.data);
+    } catch (error) {
+      console.error("Error fetching SEO settings:", error);
     }
   };
 
@@ -44,6 +66,14 @@ const Portfolio = () => {
 
   const currentPhoto = photos[currentPhotoIndex];
 
+  // Get current settings with fallbacks
+  const getCurrentAvatar = () => {
+    if (portfolioSettings?.avatar_urls && portfolioSettings.avatar_urls[portfolioSettings.selected_avatar_index]) {
+      return portfolioSettings.avatar_urls[portfolioSettings.selected_avatar_index];
+    }
+    return defaultBackgroundImage; // Fallback to default
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-100 flex items-center justify-center">
@@ -54,11 +84,18 @@ const Portfolio = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-100 text-amber-900">
+      {/* SEO Head */}
+      <SEOHead 
+        portfolioSettings={portfolioSettings}
+        seoSettings={seoSettings}
+        currentPage="home"
+      />
+      
       {/* Hero Section */}
       <div 
         className="relative py-20"
         style={{
-          background: `linear-gradient(rgba(139, 69, 19, 0.7), rgba(160, 82, 45, 0.7)), url(${backgroundImage})`,
+          background: `linear-gradient(rgba(139, 69, 19, 0.7), rgba(160, 82, 45, 0.7)), url(${defaultBackgroundImage})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat'
@@ -66,62 +103,58 @@ const Portfolio = () => {
       >
         <div className="container mx-auto px-4 text-center relative">
           <div className="mb-8">
-            {/* Avatar */}
+            {/* Dynamic Avatar */}
             <img 
-              src={avatarImage}
+              src={getCurrentAvatar()}
               alt="Viet"
               className="w-48 h-48 rounded-full mx-auto mb-4 border-4 border-orange-400 shadow-xl transform hover:scale-110 transition-transform object-cover"
             />
             <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold mb-4 bg-gradient-to-r from-orange-300 via-yellow-300 to-orange-200 bg-clip-text text-transparent tracking-wide" style={{ fontFamily: 'serif' }}>
-              Viet's PortPhotio
+              {portfolioSettings?.main_title || "Viet's PortPhotio"}
             </h1>
             <p className="text-xl text-orange-100 max-w-2xl mx-auto mb-6 leading-relaxed font-medium">
-              Hi I'm Viet, welcome.
+              {portfolioSettings?.main_subtitle || "Hi I'm Viet, welcome."}
             </p>
             <p className="text-lg text-yellow-200 max-w-xl mx-auto italic font-semibold">
-              "Photography is the rhythm that makes memories rock."
+              "{portfolioSettings?.main_quote || "Photography is the rhythm that makes memories rock."}"
             </p>
           </div>
           
-          {/* Equipment Section - Changed to Electric Guitar Gear */}
+          {/* Dynamic Equipment Section */}
           <div className="bg-black/80 backdrop-blur-sm p-8 rounded-lg max-w-4xl mx-auto border-2 border-orange-400 shadow-xl">
             <h3 className="text-2xl font-semibold mb-6 text-orange-300 flex items-center justify-center">
               <span className="mr-3">🎸</span>
-              Electric Guitar Rig
+              {portfolioSettings?.equipment_title || "Electric Guitar Rig"}
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-orange-100">
-              <div className="bg-gray-900/80 p-4 rounded-lg border border-orange-500">
-                <span className="text-orange-400 font-semibold block mb-1">Electric Guitar:</span> 
-                Fender Player Stratocaster HSS
-              </div>
-              <div className="bg-gray-900/80 p-4 rounded-lg border border-orange-500">
-                <span className="text-orange-400 font-semibold block mb-1">Amplifier:</span> 
-                Marshall DSL40CR Tube Amp
-              </div>
-              <div className="bg-gray-900/80 p-4 rounded-lg border border-orange-500">
-                <span className="text-orange-400 font-semibold block mb-1">Distortion Pedal:</span> 
-                Ibanez Tube Screamer TS9
-              </div>
-              <div className="bg-gray-900/80 p-4 rounded-lg border border-orange-500">
-                <span className="text-orange-400 font-semibold block mb-1">Delay Pedal:</span> 
-                Boss DD-7 Digital Delay
-              </div>
-              <div className="bg-gray-900/80 p-4 rounded-lg border border-orange-500">
-                <span className="text-orange-400 font-semibold block mb-1">Reverb Pedal:</span> 
-                Strymon Flint Tremolo & Reverb
-              </div>
-              <div className="bg-gray-900/80 p-4 rounded-lg border border-orange-500">
-                <span className="text-orange-400 font-semibold block mb-1">Wah Pedal:</span> 
-                Dunlop Cry Baby GCB95
-              </div>
-              <div className="bg-gray-900/80 p-4 rounded-lg border border-orange-500">
-                <span className="text-orange-400 font-semibold block mb-1">Guitar Strings:</span> 
-                Ernie Ball Regular Slinky (.010-.046)
-              </div>
-              <div className="bg-gray-900/80 p-4 rounded-lg border border-orange-500">
-                <span className="text-orange-400 font-semibold block mb-1">Guitar Cable:</span> 
-                Monster Rock Instrument Cable 21ft
-              </div>
+              {portfolioSettings?.equipment_items && portfolioSettings.equipment_items.length > 0 ? (
+                portfolioSettings.equipment_items.map((item) => (
+                  <div key={item.id} className="bg-gray-900/80 p-4 rounded-lg border border-orange-500">
+                    <span className="text-orange-400 font-semibold block mb-1">{item.name}:</span> 
+                    {item.description}
+                  </div>
+                ))
+              ) : (
+                // Fallback default equipment if none are configured
+                <>
+                  <div className="bg-gray-900/80 p-4 rounded-lg border border-orange-500">
+                    <span className="text-orange-400 font-semibold block mb-1">Electric Guitar:</span> 
+                    Fender Player Stratocaster HSS
+                  </div>
+                  <div className="bg-gray-900/80 p-4 rounded-lg border border-orange-500">
+                    <span className="text-orange-400 font-semibold block mb-1">Amplifier:</span> 
+                    Marshall DSL40CR Tube Amp
+                  </div>
+                  <div className="bg-gray-900/80 p-4 rounded-lg border border-orange-500">
+                    <span className="text-orange-400 font-semibold block mb-1">Distortion Pedal:</span> 
+                    Ibanez Tube Screamer TS9
+                  </div>
+                  <div className="bg-gray-900/80 p-4 rounded-lg border border-orange-500">
+                    <span className="text-orange-400 font-semibold block mb-1">Delay Pedal:</span> 
+                    Boss DD-7 Digital Delay
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -220,7 +253,9 @@ const Portfolio = () => {
       <footer className="bg-black py-8 mt-16 border-t-4 border-orange-500">
         <div className="container mx-auto px-4 text-center text-orange-300">
           <p className="mb-2 font-bold">&copy; Viet's Photography Portfolio. All rights reserved.</p>
-          <p className="text-sm text-orange-400">🎸 contact@vietsphotography.com | 📱 (555) ROCK-123</p>
+          <p className="text-sm text-orange-400">
+            🎸 {portfolioSettings?.contact_email || "contact@vietsphotography.com"} | 📱 {portfolioSettings?.contact_phone || "(555) ROCK-123"}
+          </p>
         </div>
       </footer>
     </div>
