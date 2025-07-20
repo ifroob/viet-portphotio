@@ -16,7 +16,7 @@ const Portfolio = () => {
   const backgroundImage = "https://images.unsplash.com/photo-1520166012956-add9ba0835cb?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1NzZ8MHwxfHNlYXJjaHwyfHxlbGVjdHJpYyUyMGd1aXRhcnxlbnwwfHx8fDE3NTI5NjAxMzl8MA&ixlib=rb-4.1.0&q=85";
   
   // Professional avatar image
-  const avatarImage = "";
+  const avatarImage = "https://images.unsplash.com/photo-1520166012956-add9ba0835cb?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1NzZ8MHwxfHNlYXJjaHwyfHxlbGVjdHJpYyUyMGd1aXRhcnxlbnwwfHx8fDE3NTI5NjAxMzl8MA&ixlib=rb-4.1.0&q=85";
 
   useEffect(() => {
     fetchPhotos();
